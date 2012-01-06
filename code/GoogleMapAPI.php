@@ -62,13 +62,13 @@ class GoogleMapAPI extends ViewableData
 
     /**
      * Type of the gmap, can be:
-     *  'G_NORMAL_MAP' (roadmap),
+     *  'google.maps.MapTypeId.ROADMAP' (roadmap),
      *  'G_SATELLITE_MAP' (sattelite)
      *  'G_HYBRID_MAP' (hybrid)
      *  'G_PHYSICAL_MAP' (terrain)
      */
 
-    protected $mapType = 'G_NORMAL_MAP';
+    protected $mapType = 'google.maps.MapTypeId.ROADMAP';
 	
     /** Content of the HTML generated **/
    protected $content = '';
@@ -316,7 +316,7 @@ class GoogleMapAPI extends ViewableData
     /**
       * Set the type of the gmap
       *
-      * @param string $mapType ( can be 'G_NORMAL_MAP', 'G_SATELLITE_MAP', 'G_HYBRID_MAP', 'G_PHYSICAL_MAP')
+      * @param string $mapType ( can be 'google.maps.MapTypeId.ROADMAP', 'G_SATELLITE_MAP', 'G_HYBRID_MAP', 'G_PHYSICAL_MAP')
       *
       * @return void
       */
@@ -580,7 +580,7 @@ class GoogleMapAPI extends ViewableData
 
 
 	public function addLine($from = array(), $to = array(), $color = "#FF3300") {
-		$this->contentLines .= "var points = [new GLatLng({$from[0]},{$from[1]}), new GLatLng({$to[0]},{$to[1]})];\n";
+		$this->contentLines .= "var points = [new google.maps.LatLng({$from[0]},{$from[1]}), new google.maps.LatLng({$to[0]},{$to[1]})];\n";
 		$this->contentLines .= "map.addOverlay(new GPolyline(points,'{$color}',4,0.6));\n";
 	}
     /**
@@ -592,7 +592,7 @@ class GoogleMapAPI extends ViewableData
 	public function includeGMapsJS() {
 		if(self::$jsIncluded) return;
         // Google map JS
-        $this->content .= '<script src="http://maps.google.com/maps?hl='. $this->lang.'&file=api&amp;v=2&amp;key='.$this->googleMapKey.'" type="text/javascript">';
+        $this->content .= '<script src="http://maps.google.com/maps/api/js?sensor=false&amp;hl='. $this->lang.'&amp;key='.$this->googleMapKey.'" type="text/javascript">';
         $this->content .= '</script>'."\n";
         
         // Clusterer JS
@@ -621,31 +621,45 @@ class GoogleMapAPI extends ViewableData
         $this->content .= "\t".'var trafficInfo = null;'."\n";
         $this->content .= "\t".'var directions = null;'."\n";
         $this->content .= "\t".'var geocoder = null;'."\n";
+        $this->content .= "\tvar infoWindow = new google.maps.InfoWindow({ content: 'test', maxWidth: 300 });";
+
 
         // JS public function to add a marker to the map
         $this->content .= "\t".'function createMarker(lat,lng,html,category,icon) {'."\n";
+        /*
         $this->content .= "\t\t".'if (icon=="") gicon = new GIcon(G_DEFAULT_ICON);'."\n";
         $this->content .= "\t\t".'else { gicon = new GIcon(G_DEFAULT_ICON,icon); gicon.iconSize = new GSize('. $this->iconWidth.','. $this->iconHeight.'); gicon.shadowSize  = new GSize(0,0); }'."\n";
-        $this->content .= "\t\t".'var marker = new GMarker(new GLatLng(lat,lng),gicon);'."\n";
+        */
+        $this->content .= "\t\t".'var marker = new google.maps.Marker(
+          );'."\n";
+        $this->content .= "\t\t//T1\nmarker.setPosition(new google.maps.LatLng(lat,lng));\n";
+        $this->content  .= "\t\tconsole.log(marker.getPosition());\n";
+        
         $this->content .= "\t\t".'marker.mycategory = category;'."\n";
 
         // Use clusterer optimisation or not
         if ($this->useClusterer==true) {
 			// nothing
         } else {
-            $this->content .= "\t\t".'map.addOverlay(marker);'."\n";
+            $this->content .= "\t\t".'marker.setMap(map);'."\n";
         }
 
+        $this->content  .= "\t\tconsole.log(lat);\n";
+        $this->content  .= "\t\tconsole.log(lng);\n";
+       
 
         $this->content .= "\t\t".'html = \'<div style="float:left;text-align:left;width:'.$this->infoWindowWidth.'px;">\'+html+\'</div>\''."\n";
-        $this->content .= "\t\t".'GEvent.addListener(marker,"click",function() { ';
+        $this->content .= "\t\t".'google.maps.event.addListener(marker,"click",function() { ';
 		
 		// Enable the zoom when you click on a marker
 		if ($this->enableWindowZoom==true) {
-			$this->content .= 'map.setCenter(new GLatLng(lat,lng),'.$this->infoWindowZoom.'); ';
+			$this->content .= 'map.setCenter(new google.maps.LatLng(lat,lng),'.$this->infoWindowZoom.'); ';
 		}
 		
-		$this->content .= 'marker.openInfoWindowHtml(html); });'."\n"; 
+		//$this->content .= 'marker.openInfoWindowHtml(html); });'."\n"; 
+      $this->content .= "\t\t".'infoWindow.setContent(html);';
+      $this->content .= "\t\t".'infoWindow.open(map, this);';
+      $this->content .= ' });'."\n"; 
         $this->content .= "\t\t".'gmarkers.push(marker);'."\n";
 
         // Hide marker by default
@@ -710,9 +724,9 @@ class GoogleMapAPI extends ViewableData
 
         $this->content .= "\t".'<script type="text/javascript">'."\n";
         $this->content .= "\t".'function load() {'."\n";
-        $this->content .= "\t\t".'if (GBrowserIsCompatible()) {'."\n";
-        $this->content .= "\t\t\t".'map = new GMap2(document.getElementById("'.$this->googleMapId.'"));'."\n";
-        $this->content .= "\t\t\t".'geocoder = new GClientGeocoder();'."\n";
+        $this->content .= "\t\t".'//if (GBrowserIsCompatible()) {'."\n";
+        $this->content .= "\t\t\t".'map = new google.maps.Map(document.getElementById("'.$this->googleMapId.'"));'."\n";
+        $this->content .= "\t\t\t".'geocoder = new google.maps.Geocoder();'."\n";
 
 		
 		if ($this->enableAutomaticCenterZoom==true) {
@@ -722,7 +736,7 @@ class GoogleMapAPI extends ViewableData
 
       error_log("LAT LONG CENTRE");
       error_log(print_r($latlngCentre,1));
-			$this->content .= "\t\t\t".'map.setCenter(new GLatLng('.$latlngCentre.'),'.$this->zoom.');'."\n";
+			$this->content .= "\t\t\t".'map.setCenter(new google.maps.LatLng('.$latlngCentre.'),'.$this->zoom.');'."\n";
 			
 			$lenLng = $this->maxLng - $this->minLng;
             $lenLat = $this->maxLat - $this->minLat;
@@ -731,14 +745,14 @@ class GoogleMapAPI extends ViewableData
             $this->minLat -= $lenLat * $this->coordCoef;
             $this->maxLat += $lenLat * $this->coordCoef;
 
-            $this->content .= "\t\t\t".'var bds = new GLatLngBounds(new GLatLng('.$this->minLat.','.$this->minLng.'),new GLatLng('.$this->maxLat.','.$this->maxLng.'));'."\n";
-            $this->content .= "\t\t\t".'map.setZoom(map.getBoundsZoomLevel(bds));'."\n";
+            $this->content .= "\t\t\t".'var bds = new google.maps.LatLngBounds(new google.maps.LatLng('.$this->minLat.','.$this->minLng.'),new google.maps.LatLng('.$this->maxLat.','.$this->maxLng.'));'."\n";
+            $this->content .= "\t\t\t".'map.setZoom(map.fitBounds(bds));'."\n";
 		} else {
-			$this->content .= "\t\t\t".'map.setCenter(new GLatLng('.$latlngCentre.'),'.$this->zoom.');'."\n";
+			$this->content .= "\t\t\t".'map.setCenter(new google.maps.LatLng('.$latlngCentre.'),'.$this->zoom.');'."\n";
 		}
-        $this->content .= "\t\t\t".'map.setMapType('.$this->mapType.');'."\n";
-        $this->content .= "\t\t\t".'map.setUIToDefault();'."\n";
-        $this->content .= "\t\t\t".'GEvent.addListener(map,"click",function(overlay,latlng) { if (latlng) { current_lat=latlng.lat();current_lng=latlng.lng(); }}) ;'."\n";
+        $this->content .= "\t\t\t".'map.setMapTypeId('.$this->mapType.');'."\n";
+       // $this->content .= "\t\t\t".'map.setUIToDefault();'."\n";
+        $this->content .= "\t\t\t".'google.maps.event.addListener(map,"click",function(overlay,latlng) { if (latlng) { current_lat=latlng.lat();current_lng=latlng.lng(); }}) ;'."\n";
 
 
         // add all the markers
@@ -748,7 +762,7 @@ class GoogleMapAPI extends ViewableData
         $this->content .= $this->contentLines;
         
         $this->content .= "\t\t".'}'."\n";
-        $this->content .= "\t".'}'."\n";
+        $this->content .= "//*** T1 \t".'}'."\n";
         $this->content .= "\t".'load();'."\n";
  
         if ($this->useClusterer==true) {
