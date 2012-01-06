@@ -33,10 +33,10 @@ class GoogleMapAPI extends ViewableData
    protected $height = 600;
 
     /** Icon width of the gmarker **/
-   protected $iconWidth = 24;
+   protected $iconWidth = 20;
 
     /** Icon height of the gmarker **/
-   protected $iconHeight = 24;
+   protected $iconHeight = 34;
 
     /** Infowindow width of the gmarker **/
    protected $infoWindowWidth = 250;
@@ -468,10 +468,10 @@ class GoogleMapAPI extends ViewableData
      */
     public function addMarkerAsObject(ViewableData $obj) {    
     	if($obj instanceof Mappable) {
-        	if(($obj->getLatitude() > 0) || ($obj->getLongitude() > 0)) {
+        	//if(($obj->getMappableLatitude() > 0) || ($obj->getMappableLongitude() > 0)) {
         		$cat = $obj->hasMethod('getMapCategory') ? $obj->getMapCategory() : "default";
-		        $this->addMarkerByCoords($obj->getLatitude(), $obj->getLongitude(), $obj->getMapContent(), $cat, $obj->getMapPin());
-	        }
+		        $this->addMarkerByCoords($obj->getMappableLatitude(), $obj->getMappableLongitude(), $obj->getMapContent(), $cat, $obj->getMapPin());
+	        //}
         }    
     }
     
@@ -485,8 +485,8 @@ class GoogleMapAPI extends ViewableData
      */
     public function connectPoints(ViewableData $one, ViewableData $two, $color = "#FF3300") {
 		$this->addLine(
-			array($one->getLatitude(), $one->getLongitude()),
-			array($two->getLatitude(), $two->getLongitude()),
+			array($one->getMappableLatitude(), $one->getMappableLongitude()),
+			array($two->getMappableLatitude(), $two->getMappableLongitude()),
 			$color
 		);    
     }
@@ -689,7 +689,12 @@ class GoogleMapAPI extends ViewableData
 
 		
 		if ($this->enableAutomaticCenterZoom==true) {
+      error_log("CENTERLAT:".$this->centerLat);
+
 			$latlngCentre = $this->centerLat.",".$this->centerLng;
+
+      error_log("LAT LONG CENTRE");
+      error_log(print_r($latlngCentre,1));
 			$this->content .= "\t\t\t".'map.setCenter(new GLatLng('.$latlngCentre.'),'.$this->zoom.');'."\n";
 			
 			$lenLng = $this->maxLng - $this->minLng;
