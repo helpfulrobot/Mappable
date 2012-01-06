@@ -59,7 +59,7 @@ class GoogleMapUtil
 	/**
 	 * @var boolean Show the marker fields on the map
 	 */
-	public static $map_type = 'G_NORMAL_MAP';
+	public static $map_type = 'google.maps.MapTypeId.ROADMAP';
 
         /**
          * @var string $center Center of map (adress)
@@ -97,7 +97,7 @@ class GoogleMapUtil
         /**
           * Set the type of the gmap
           *
-          * @param string $mapType ( can be 'G_NORMAL_MAP', 'G_SATELLITE_MAP', 'G_HYBRID_MAP', 'G_PHYSICAL_MAP')
+          * @param string $mapType ( can be 'google.maps.MapTypeId.ROADMAP', 'G_SATELLITE_MAP', 'G_HYBRID_MAP', 'G_PHYSICAL_MAP')
           *
           * @return void
           */
