@@ -17,8 +17,8 @@ class MappableData extends Extension {
 		$gmap->setLatLongCenter(array(
 			'200',
 			'4',
-			$this->owner->getLatitude(),
-			$this->owner->getLongitude()
+			$this->owner->getMappableLatitude(),
+			$this->owner->getMappableLongitude()
 		));
 		
 		return $gmap;
