@@ -45,6 +45,17 @@ class LatLongField extends FieldGroup {
 		
 		$this->FieldSet()->push(new MapField('GoogleMap','GoogleMap'));
 
+		 $content = '<div id="mapSearch">
+		 <input name="location_search" id="location_search" size=80/>
+    	<button class="action" id="searchLocationButton">Search Location Name</button>
+      		<div id="mapSearchResults">
+      	</div>
+    </div>
+    ';
+
+    	$this->FieldSet()->push(new LiteralField('mapSearch', $content));
+
+
 
        // $this->FieldSet()->push(new LiteralField ('geocode_map_field'.$this->id(),$mapHtml));
 		return parent::FieldHolder();
