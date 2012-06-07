@@ -11,6 +11,8 @@ class LatLongField extends FieldGroup {
 	protected $latField;
 	
 	protected $longField;
+
+	protected $zoomField;
 			
 	protected $buttonText;
 	
@@ -23,6 +25,10 @@ class LatLongField extends FieldGroup {
 		$this->buttonText = $buttonText ? $buttonText : _t('LatLongField.LOOKUP','Search');
 		$this->latField = $children[0]->Name();
 		$this->longField = $children[1]->Name();
+
+		if (sizeof($children) == 3) {
+			$this->zoomField = $children[2]->Name();
+		}
 		$name = "";
 		foreach($children as $field) {
 			$name .= $field->Name();
