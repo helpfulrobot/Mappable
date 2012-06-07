@@ -41,68 +41,12 @@ class LatLongField extends FieldGroup {
 
 		Requirements::javascript(THIRDPARTY_DIR.'/jquery-metadata/jquery.metadata.js');
 		Requirements::javascript('mappable/javascript/lat_long_field.js');
-		Requirements::css('mappable/css/lat_long_field.css');
+		//Requirements::css('mappable/css/lat_long_field.css');
 		
-
-		$addressSearchField = new TextField('map_search_text_'.$this->id(), '<br/><br/>', '', 40);
-		$this->FieldSet()->push($addressSearchField);
-
-$this->FieldSet()->push(new LiteralField('geocode_'.$this->id(), sprintf('<a class="geocode_button {\'aFields\': \'%s\',\'lat\': \'%s\', \'long\': \'%s\'}" href="'.$this->Link('geocode').'">'.
-							$this->buttonText.
-						'</a>', implode(',',$this->addressFields), $this->latField, $this->longField)));
+		$this->FieldSet()->push(new MapField('GoogleMap','GoogleMap'));
 
 
-		        $this->Fieldset()->push(new FormAction('GetCoords','Geocode'));
-
-
-        $map = GoogleMapUtil::instance();
-        $map->setDivId('geocode_map_'.$this->id());
-        $map->setEnableAutomaticCenterZoom(false);
-
-        $mapHtml = $map->forTemplate();
-        $mapHtml .= "<script type='text/javascript'>
-
-
-        
-
-        	JQ = jQuery.noConflict();
-
-        	// reinvocate the map each time using livequery
-        	JQ(document).ready(function() {
-				JQ('#geocode_map_Form_EditForm_LatitudeLongitude').livequery(function () { 
-					load();
-	 				var point = new google.maps.LatLng(JQ('input[name=Latitude]').val(),JQ('input[name=Longitude]').val());
-    				//map = new google.maps.Map(document.getElementById('#geocode_map_Form_EditForm_LatitudeLongitude'));
-    
-				    if (JQ('input[name=Latitude]').val() && JQ('input[name=Longitude]').val()) {
-				        marker = null;
-				        setMarker(point);
-
-				    } else {
-				    	alert('no location to set');
-				    }
-
-				 });
-
-
-		        JQ('.geocode_button').livequery('click',
-		                function(e) {
-		                	alert('get coords clicked');
-		                    // get the data needed to ask coords
-		                    var location = $('#Form_EditForm_Location').val();
-		                    searchForAddress(location);
-		                    e.preventDefault();
-		                    return false;
-		                 }
-		        );
-
-		});
-
-
-        </script>
-        ";
-
-        $this->FieldSet()->push(new LiteralField ('geocode_map_field'.$this->id(),$mapHtml));
+       // $this->FieldSet()->push(new LiteralField ('geocode_map_field'.$this->id(),$mapHtml));
 		return parent::FieldHolder();
 	}
 	
