@@ -11,13 +11,13 @@
             zoom: 16,
             disableDefaultUI: false,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            disableDoubleClickZoom:true,
+            disableDoubleClickZoom:false,
             draggable:true,
             keyboardShortcuts:false,
             scrollwheel:true
         };
         
-        function setMarker(location){
+        function setMarker(location, recenter){
             if (marker != null) {
                 marker.setPosition(location);
             } else {
@@ -29,7 +29,10 @@
                 marker.setMap(map);
                 google.maps.event.addListener(marker, 'dragend',setCoordByMarker);
             }
-            map.setCenter(location) 
+
+            if (recenter) {
+                map.setCenter(location) 
+            }
         }
         
         function setCoordByMarker(event) {
@@ -117,7 +120,7 @@
                     $('#Form_EditForm_Longitude').val(lon);
 
                     $('#Form_EditForm_Location').val(address);
-                    setMarker(latlng);
+                    setMarker(latlng,true);
                     return false;
                  }
         );
@@ -129,8 +132,17 @@
             
             if ($('input[name=Latitude]').val() && $('input[name=Longitude]').val()) {
                 marker = null;
-                setMarker(myOptions.center);
-            }            
+                setMarker(myOptions.center, true);
+            }
+
+            google.maps.event.addListener(map, "rightclick", function(event) {
+                var lat = event.latLng.lat();
+                var lng = event.latLng.lng();
+                $('input[name=Latitude]').val(lat);
+                $('input[name=Longitude]').val(lng);
+                // populate yor box/field with lat, lng
+                setMarker(event.latLng, false);
+            });    
         }       
         
         $('#GoogleMap').livequery(function () { initMap(); });
