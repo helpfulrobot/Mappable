@@ -38,6 +38,11 @@
         function setCoordByMarker(event) {
             $('input[name=Latitude]').val(event.latLng.lat());
             $('input[name=Longitude]').val(event.latLng.lng());
+
+            if ($('input[name=Zoom]').length) {
+                $('input[name=Zoom]').val(map.getZoom());
+            }
+
             map.setCenter(event.latLng);
         }
         
@@ -128,12 +133,18 @@
         
         function initMap () {
             myOptions.center = new google.maps.LatLng($('input[name=Latitude]').val(),$('input[name=Longitude]').val());
+            if ($('input[name=Zoom]').length) {
+                myOptions['zoom'] = parseInt($('input[name=Zoom]').val());
+            }
             map = new google.maps.Map(document.getElementById("GoogleMap"), myOptions);
-            
+        
             if ($('input[name=Latitude]').val() && $('input[name=Longitude]').val()) {
                 marker = null;
+
                 setMarker(myOptions.center, true);
             }
+
+
 
             google.maps.event.addListener(map, "rightclick", function(event) {
                 var lat = event.latLng.lat();
@@ -142,7 +153,17 @@
                 $('input[name=Longitude]').val(lng);
                 // populate yor box/field with lat, lng
                 setMarker(event.latLng, false);
-            });    
+            });
+
+
+            google.maps.event.addListener(map, "zoom_changed", function(e) {
+                if ($('input[name=Zoom]').length) {
+                    $('input[name=Zoom]').val(map.getZoom());
+                }
+            });
+
+
+            
         }       
         
         $('#GoogleMap').livequery(function () { initMap(); });
