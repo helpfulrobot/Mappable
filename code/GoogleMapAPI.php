@@ -26,6 +26,9 @@ class GoogleMapAPI extends ViewableData
     /** GoogleMap  Direction ID for the HTML DIV **/
    protected $googleMapDirectionId = 'route';
 
+   /* Additional CSS classes to use when rendering the map */
+   protected $set_additional_css_classes = '';
+
     /** Width of the gmap **/
    protected $width = 800;
 
@@ -58,7 +61,17 @@ class GoogleMapAPI extends ViewableData
     /**Center of the gmap **/
    protected $center = 'Paris, France';
 
-    protected $latLongCenter = null;
+   /*
+   Additional CSS classes to render as a class attribute for the div of the map.  Use this if you want more
+   fine grained control over your map using CSS.  If blank it will be ignored
+   */
+   protected $additional_css_classes = '';
+
+
+   /* Decided whether or not to show the inline map css style on div creation */
+   protected $show_inline_map_div_style = true;
+
+  protected $latLongCenter = null;
 
 
     /*
@@ -195,9 +208,19 @@ var styles = [
     }
 
 
+    public function setShowInlineMapDivStyle($new_show_inline_map_div_style) {
+      $this->show_inline_map_div_style = $new_show_inline_map_div_style;
+    }
+
+    public function setAdditionalCSSClasses($new_additional_css_classes) {
+      $this->additional_css_classes = $new_additional_css_classes;
+    }
+
+
     public function setMapStyles($newStyles) {
       $this->jsonMapStyles = $newStyles;
     }
+
 
 
     public function setDelayLoadMapFunction($newDelay) {
@@ -776,7 +799,18 @@ var styles = [
         $this->content .=  "\t".'</script>'."\n";
 
         // Google map DIV
-        $this->content .= "\t".'<div id="'.$this->googleMapId.'" style="width:'.$this->width.'px;height:'.$this->height.'px"></div>'."\n";
+        $this->content .= "\t".'<div id="'.$this->googleMapId.'"';
+
+        if ($this->show_inline_map_div_style) {
+          $this->content .= 'style="color: blue; width:'.$this->width.'px;height:'.$this->height.'px"';
+        }
+
+        if ($this->additional_css_classes != '') {
+          $this->content .= ' class="'.$this->additional_css_classes.'"';
+        }
+
+
+        $this->content .= "></div>\n";
     }
 
     /**
