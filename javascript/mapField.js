@@ -95,7 +95,7 @@
         $('#searchLocationButton').livequery('click',
                 function(e) {
                     // get the data needed to ask coords
-                    var location = $('#Form_EditForm_Location').val();
+                    var location = $('#location_search').val();
                     searchForAddress(location);
                     return false;
                  }
