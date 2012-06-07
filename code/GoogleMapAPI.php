@@ -107,6 +107,8 @@ var styles = [
     */
   protected $jsonMapStyles = null;
 
+  protected $delayLoadMapFunction = false;
+
     /**
      * Type of the gmap, can be:
      *  'google.maps.MapTypeId.ROADMAP' (roadmap),
@@ -195,6 +197,11 @@ var styles = [
 
     public function setMapStyles($newStyles) {
       $this->jsonMapStyles = $newStyles;
+    }
+
+
+    public function setDelayLoadMapFunction($newDelay) {
+      $this->delayLoadMapFunction = $newDelay;
     }
 
     /**
@@ -678,20 +685,38 @@ var styles = [
 
 
         // JS public function to add a marker to the map
-        $this->content .= "\t".'function createMarker(lat,lng,html,category,icon) {'."\n";
+        $this->content .= "\n\n\t".'function createMarker(lat,lng,html,category,icon) {'."\n";
         /*
         $this->content .= "\t\t".'if (icon=="") gicon = new GIcon(G_DEFAULT_ICON);'."\n";
         $this->content .= "\t\t".'else { gicon = new GIcon(G_DEFAULT_ICON,icon); gicon.iconSize = new GSize('. $this->iconWidth.','. $this->iconHeight.'); gicon.shadowSize  = new GSize(0,0); }'."\n";
+       
+    var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+    var myOptions = {
+      zoom: 4,
+      center: myLatlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    
+    var marker = new google.maps.Marker({
+        position: myLatlng, 
+        map: map,
+        title:"Hello World!"
+    });  
         */
-        //$this->content .= "\t\t\t".'console.log("ICON:"+icon);';
-        $this->content .= "\t\t\t".'var image = new google.maps.MarkerImage(icon);';
+
           
         
-        $this->content .= "\t\t".'var marker = new google.maps.Marker();'."\n";
+        $this->content .= "\n\t\t".'var marker = new google.maps.Marker();'."\n";
         $this->content .= "\t\tmarker.setPosition(new google.maps.LatLng(lat,lng));\n";
         
         $this->content .= "\t\t".'marker.mycategory = category;'."\n";
-        $this->content .= "\t\t".'marker.setIcon(image);'."\n";
+
+        $this->content .= "\t\t\tif (icon != '') {";
+
+        $this->content .= "\t\t\t\t".'var image = new google.maps.MarkerImage(icon);';
+        $this->content .= "\t\t\t\t".'marker.setIcon(image);'."\n";
+        $this->content .= "\t\t\t};\n";
 
         // Use clusterer optimisation or not
         if ($this->useClusterer==true) {
@@ -711,7 +736,7 @@ var styles = [
 		}
 		
 		//$this->content .= 'marker.openInfoWindowHtml(html); });'."\n"; 
-      $this->content .= "\t\t".'infoWindow.setContent(html);';
+      $this->content .= "\n\t\t".'infoWindow.setContent(html);';
       $this->content .= "\t\t".'infoWindow.open(map, this);';
       $this->content .= ' });'."\n"; 
         $this->content .= "\t\t".'gmarkers.push(marker);'."\n";
@@ -724,17 +749,17 @@ var styles = [
         $this->content .= "\t".'}'."\n";
         
         // JS public function to get current Lat & Lng
-        $this->content .= "\t".'function getCurrentLat() {'."\n";
+        $this->content .= "\n\t".'function getCurrentLat() {'."\n";
         $this->content .= "\t\t".'return current_lat;'."\n";
         $this->content .= "\t".'}'."\n";
-        $this->content .= "\t".'function getCurrentLng() {'."\n";
+        $this->content .= "\n\t".'function getCurrentLng() {'."\n";
         $this->content .= "\t\t".'return current_lng;'."\n";
         $this->content .= "\t".'}'."\n";
 
 
 		
 		// JS public function to center the gmaps dynamically
-        $this->content .= "\t".'function showAddress(address) {'."\n";
+        $this->content .= "\n\t".'function showAddress(address) {'."\n";
         $this->content .= "\t\t".'if (geocoder) {'."\n";
         $this->content .= "\t\t\t".'geocoder.getLatLng('."\n";
         $this->content .= "\t\t\t\t".'address,'."\n";
@@ -765,7 +790,7 @@ var styles = [
 
         $this->init();
 
-        $this->content .=  "\t".'</script>'."\n";
+      // THIS SEEMS ROGUE  $this->content .=  "\t".'</script>'."\n";
 
         // Center of the GMap
 		  $geocodeCentre = ($this->latLongCenter) ? $this->latLongCenter : $this->geocoding($this->center);
@@ -778,7 +803,6 @@ var styles = [
 
         $this->content .= "\t".'<script type="text/javascript">'."\n";
         $this->content .= "\t".'function load() {'."\n";
-
         $this->content .= "\t\t".'//if (GBrowserIsCompatible()) {'."\n";
         $this->content .= "\t\t\t".'map = new google.maps.Map(document.getElementById("'.$this->googleMapId.'"));'."\n";
 
@@ -836,7 +860,14 @@ var styles = [
         $this->content .= $this->contentLines;
         
         $this->content .= "\t\t" . '}'."\n";
-        $this->content .= "\t".'load();'."\n";
+
+        /*
+        If you wish to control when the load method for maps is called use
+    GoogleMapAPI::setDelayLoadMaps(true);
+        */
+        if (!$this->delayLoadMapFunction) {
+          $this->content .= "\t".'load();'."\n";
+        }
  
         if ($this->useClusterer==true) {
             $this->content .= "\t".'var markerCluster = new MarkerClusterer(map, gmarkers,{gridSize: '.$this->gridSize.', maxZoom: '.$this->maxZoom.'});'."\n";
