@@ -18,6 +18,7 @@
 
      (function($) {
 
+
        myOptions.center = new google.maps.LatLng($('input[name=Latitude]').val(), $('input[name=Longitude]').val());
        if ($('input[name=Zoom]').length) {
          myOptions['zoom'] = parseInt($('input[name=Zoom]').val());
@@ -52,7 +53,12 @@
 
     
      // see http://stackoverflow.com/questions/10197128/google-maps-api-v3-not-rendering-competely-on-tabbed-page-using-twitters-bootst
-     google.maps.event.trigger(map, 'resize');
+     //google.maps.event.trigger(map, 'resize');
+
+     $( document ).bind( "pageshow", function( event, data ){
+        google.maps.event.trigger(map, 'resize');
+      });
+
      map.setZoom(map.getZoom());
 
 
