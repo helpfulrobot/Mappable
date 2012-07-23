@@ -802,7 +802,7 @@ var styles = [
         $this->content .= "\t".'<div id="'.$this->googleMapId.'"';
 
         if ($this->show_inline_map_div_style) {
-          $this->content .= 'style="color: blue; width:'.$this->width.'px;height:'.$this->height.'px"';
+          $this->content .= 'style="width:'.$this->width.'px;height:'.$this->height.'px"';
         }
 
         if ($this->additional_css_classes != '') {
