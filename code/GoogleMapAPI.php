@@ -675,7 +675,7 @@ var styles = [
 	public function includeGMapsJS() {
 		if(self::$jsIncluded) return;
         // Google map JS
-        $this->content .= '<script src="http://maps.google.com/maps/api/js?sensor=false&amp;hl='. $this->lang.'" type="text/javascript">';
+        $this->content .= '<script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false&amp;hl='. $this->lang.'" type="text/javascript">';
         $this->content .= '</script>'."\n";
         
         // Clusterer JS
