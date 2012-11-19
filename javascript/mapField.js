@@ -55,9 +55,12 @@
      // see http://stackoverflow.com/questions/10197128/google-maps-api-v3-not-rendering-competely-on-tabbed-page-using-twitters-bootst
      //google.maps.event.trigger(map, 'resize');
 
-     $( document ).bind( "pageshow", function( event, data ){
-        google.maps.event.trigger(map, 'resize');
-      });
+     (function($) {
+
+       $(document).bind( "pageshow", function( event, data ){
+          google.maps.event.trigger(map, 'resize');
+        });
+     })(jQuery);
 
      map.setZoom(map.getZoom());
 
