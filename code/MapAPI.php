@@ -260,8 +260,6 @@ var styles = [
     $this->gridSize = $gridSize;
     $this->maxZoom = $maxZoom;
     $this->clustererLibraryPath = $clustererLibraryPath;
-
-    error_log('T1 Set cluster pathj to '.$clustererLibraryPath);
   }
 
   /**
