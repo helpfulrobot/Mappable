@@ -163,9 +163,6 @@ class MapUtil
 	public static function instance()
 	{
 		self::$instances++;
-
-		error_log("GOOGLE MAP INSTANCE:".self::$instances);
-
 		$url = Director::absoluteBaseURL();
 
 		// remove http and https
