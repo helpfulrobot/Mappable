@@ -2,6 +2,11 @@
 
 Object::add_extension("DataObject","MappableData");
 Object::add_extension("DataList","MappableDataObjectSet");
+
+// placemarkers
+Object::add_extension('MapMarker', 'MapExtension');
+
+
 //define global path to Components' root folder
 if(!defined('MAPPABLE_MODULE_PATH'))
 {
