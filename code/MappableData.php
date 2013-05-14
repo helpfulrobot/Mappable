@@ -12,14 +12,15 @@ class MappableData extends Extension {
 		$gmap = MapUtil::get_map(new ArrayList(array($this->owner)));
 		$w = $width ? $width : MapUtil::$map_width;
 		$h = $height ? $height : MapUtil::$map_height;
-		$gmap->setSize($w,$h);
+		$gmap->setSize($w, $h);
 		$gmap->setZoom($zoom);
 		$gmap->setEnableAutomaticCenterZoom(false);
-		$gmap->setLatLongCenter(array(
-			'200',
-			'4',
-			$this->owner->getMappableLatitude(),
-			$this->owner->getMappableLongitude()
+		$gmap->setLatLongCenter(
+			array(
+				'200',
+				'4',
+				$this->owner->getMappableLatitude(),
+				$this->owner->getMappableLongitude()
 			)
 		);
 
@@ -37,8 +38,9 @@ class MappableData extends Extension {
                 $lat = $this->owner->getLatitude();
                 $lng = $this->owner->getLongitude();
 
-                $src = htmlentities("http://maps.google.com/maps/api/staticmap?center=$lat,$lng&markers=$lat,$lng&zoom=13&size=${w}x$h&sensor=false");
-
+                $src = 'http://maps.google.com/maps/api/staticmap';
+                $src .= "?center=$lat,$lng&markers=$lat,$lng&zoom=13&size=${w}x$h&sensor=false";
+				$src = htmlentities($src);
                 return '<img src="'.$src.'" width="'.$w.'" height="'.$h.'" alt="'.$this->owner->Title.'" />';
 
 	}
