@@ -83,52 +83,6 @@ class MapAPI extends ViewableData
 
   protected $mappingService = 'Google';
 
-
-
-  /*
-    Map styles for google maps, ignored if null
-    <pre>
-var styles = [
-       {
-               featureType: 'water',
-               elementType: 'all',
-               stylers: [
-                       { hue: '#B6C5CF' },
-                       { saturation: -54 },
-                       { lightness: 1 },
-                       { visibility: 'on' }
-               ]
-       },{
-               featureType: 'landscape',
-               elementType: 'all',
-               stylers: [
-                       { hue: '#D9D4C8' },
-                       { saturation: -32 },
-                       { lightness: -8 },
-                       { visibility: 'on' }
-               ]
-       },{
-               featureType: 'road',
-               elementType: 'all',
-               stylers: [
-                       { hue: '#A69D97' },
-                       { saturation: -92 },
-                       { lightness: -3 },
-                       { visibility: 'on' }
-               ]
-       },{
-               featureType: 'poi',
-               elementType: 'all',
-               stylers: [
-                       { hue: '#E7E6DB' },
-                       { saturation: -53 },
-                       { lightness: 47 },
-                       { visibility: 'on' }
-               ]
-       }
-];
-    </pre>
-    */
   protected $jsonMapStyles = '[]';
 
   protected $delayLoadMapFunction = false;
@@ -523,7 +477,6 @@ var styles = [
     $this->centerLng = (float) ( $this->minLng + $this->maxLng ) / 2;
     $this->centerLat = (float) ( $this->minLat + $this->maxLat ) / 2;
 
-    //$this->contentMarker .= "\t\t\t".'createMarker('.$lat.','.$lng.',"'.$html.'","'.$category.'","'.$icon.'");'."\n";
     $m = array(
       'latitude' => $lat,
       'longitude' => $lng,
