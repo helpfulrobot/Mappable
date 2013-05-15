@@ -54,7 +54,7 @@ var mappableMaps = [];
  var mapLayers = [];
  var mapLines = [];
 <% end_if %>
-    registerMap('$GoogleMapID', $LatLngCentre, $Zoom, $MinLat,$MinLng,$MaxLat,$MaxLng, $MapType, $MapMarkers, $Lines,$KmlFiles, $JsonMapStyles, $EnableAutomaticCenterZoom, $UseClusterer);
+    registerMap('$GoogleMapID', $LatLngCentre, <% if Zoom %>$Zoom<% else %>10<% end_if %>, $MinLat,$MinLng,$MaxLat,$MaxLng, $MapType, $MapMarkers, $Lines,$KmlFiles, $JsonMapStyles, $EnableAutomaticCenterZoom, $UseClusterer);
 </script>
 
  <div id="$GoogleMapID" <% if ShowInlineMapDivStyle %>style="width:{$Width}px;{$Height}px;"<% end_if %><% if AdditionalCssClasses %>class="$AdditionalCssClasses"<% end_if %>
