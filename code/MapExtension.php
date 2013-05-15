@@ -59,9 +59,9 @@ class MapExtension extends DataExtension implements Mappable {
 
 
 	/*
-  Render a map at the provided lat,lon, zoom from the editing functions,
-  */
-	public function BasicMap() {
+ 		Render a map at the provided lat,lon, zoom from the editing functions,
+	*/
+	public function BasicMap($clusterMap = false) {
 		$map = $this->owner->getRenderableMap();
 		// $map->setDelayLoadMapFunction(true);
 		$map->setZoom($this->owner->ZoomLevel);
@@ -74,6 +74,23 @@ class MapExtension extends DataExtension implements Mappable {
 			}
 		}
 
+		if (Object::has_extension($this->owner->ClassName, 'MapMarkerSetsExtension')) {
+			foreach ($this->owner->MapMarkerSets() as $markerSet) {
+				foreach ($markerSet->MapMarkers() as $marker) {
+					//  public function addMarkerByCoords( $lat, $lng, $html='', $category='', $icon='' ) {
+					$map->addMarkerByCoords($marker->Lat, $marker->Lon, $html=$marker->Description, 'marker');
+				}
+			}
+
+			$map->setEnableAutomaticCenterZoom(true);
+		}
+
+
+		$map->setClusterer($clusterMap);
+
+
+
+		
 		return $map;
 	}
 
@@ -81,5 +98,3 @@ class MapExtension extends DataExtension implements Mappable {
 
 
 }
-
-?>
