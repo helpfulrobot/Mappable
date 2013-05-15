@@ -62,8 +62,12 @@ class MapExtension extends DataExtension implements Mappable {
  		Render a map at the provided lat,lon, zoom from the editing functions,
 	*/
 	public function BasicMap($clusterMap = false) {
-		$map = $this->owner->getRenderableMap();
-		// $map->setDelayLoadMapFunction(true);
+		$hideMarkerAtCentre = false;
+		if (Object::has_extension($this->owner->ClassName, 'MapMarkerSetsExtension')) {
+			$hideMarkerAtCentre = true;
+		}
+
+		$map = $this->owner->getRenderableMap($hideMarkerAtCentre);
 		$map->setZoom($this->owner->ZoomLevel);
 		$map->setAdditionalCSSClasses('fullWidthMap');
 		$map->setShowInlineMapDivStyle(true);
@@ -77,7 +81,6 @@ class MapExtension extends DataExtension implements Mappable {
 		if (Object::has_extension($this->owner->ClassName, 'MapMarkerSetsExtension')) {
 			foreach ($this->owner->MapMarkerSets() as $markerSet) {
 				foreach ($markerSet->MapMarkers() as $marker) {
-					//  public function addMarkerByCoords( $lat, $lng, $html='', $category='', $icon='' ) {
 					$map->addMarkerByCoords($marker->Lat, $marker->Lon, $html=$marker->Description, 'marker');
 				}
 			}
@@ -87,10 +90,6 @@ class MapExtension extends DataExtension implements Mappable {
 
 
 		$map->setClusterer($clusterMap);
-
-
-
-		
 		return $map;
 	}
 
