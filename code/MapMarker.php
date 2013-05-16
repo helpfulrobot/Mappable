@@ -3,7 +3,7 @@ class MapMarker extends DataObject {
 
      static $belongs_many_many = array(
 		'MapMarkerSets' => 'MapMarkerSet'
-		);
+	);
 
 	static $db = array(
 		'Title' => 'Varchar(255)',
