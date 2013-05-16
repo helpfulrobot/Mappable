@@ -8,8 +8,8 @@
  */
 class MappableData extends Extension {
 
-	public function getRenderableMap($width = null, $height = null, $zoom = 9) {
-		$gmap = MapUtil::get_map(new ArrayList(array($this->owner)));
+	public function getRenderableMap($hideMarkerAtCentre = false, $width = null, $height = null, $zoom = 9) {
+		$gmap = MapUtil::get_map(new ArrayList(array($this->owner)), $hideMarkerAtCentre);
 		$w = $width ? $width : MapUtil::$map_width;
 		$h = $height ? $height : MapUtil::$map_height;
 		$gmap->setSize($w, $h);
