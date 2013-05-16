@@ -211,18 +211,22 @@ class MapUtil
 	 * @param DataObjectSet $set
 	 * @return GoogleMapsAPI
 	 */
-	public static function get_map(DataList $list) {
+	public static function get_map(DataList $list, $hideMarkerAtCentre = false) {
 		$gmap = self::instance();
+		error_log("GET MAP: hide marker at centre = ".$hideMarkerAtCentre);
 		if($list) {
+			error_log("Has list");
 			$arr = $list->toArray();
 			foreach ($arr as $mappable) {
-				$gmap->addMarkerAsObject($mappable);
+				error_log("Mappable object found");
+				if (!$hideMarkerAtCentre) {
+					error_log("Adding marker");
+					$gmap->addMarkerAsObject($mappable);
+				}
+				
 			}
 		}
 		return $gmap;	
 	}
 
-
-	
-		
 }
