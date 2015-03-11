@@ -35,5 +35,4 @@ Note you will not be able to see map layers in your dev environment, as the KML 
 ##Example Rendering
 The following screenshot is of an exported KML file from http://www.plotaroute.com/route/43228, a cycle route along canals avoiding main roads.
 
-![Safe Cycle Route in Bangkok](hhttps://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/maplayers.png?raw=true "Safe Cycle Route in Bangkok")
-
+![Safe Cycle Route in Bangkok](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/maplayers.png?raw=true "Safe Cycle Route in Bangkok")
