@@ -41,8 +41,8 @@ An example method to draw a multicolored triangle on a map is as follows:
   }
 ```
 
-
-
   Instead of calling $BasicMap call $MapWithLines instead from the template.
 
   See http://demo.weboftalent.asia/mappable/map-with-lines/ for a working demo.
+
+![Map With Lines](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/mapswithlines.png "Map With Lines")
