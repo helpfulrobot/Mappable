@@ -30,5 +30,10 @@ When you add a new page of type PageWithMapAndLayers, there is now an extra tab 
 Templating is the same as before, the $BasicMap method takes account of layers when rendering a map.
 
 ##Gotchas
-Note you will not be able to see map layers in your dev environment, as the KML file URL needs to be publicly visible in order that Google's servers can 
+Note you will not be able to see map layers in your dev environment, as the KML file URL needs to be publicly visible in order that Google's servers can
+
+##Example Rendering
+The following screenshot is of an exported KML file from http://www.plotaroute.com/route/43228, a cycle route along canals avoiding main roads.
+
+![Safe Cycle Route in Bangkok](hhttps://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/maplayers.png?raw=true "Safe Cycle Route in Bangkok")
 
