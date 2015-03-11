@@ -25,5 +25,10 @@ public function MapWithDataList() {
 
 The map is positioned so that it shows all of the points automatically.  Also note that the host page of the map does not require to implement mappable or even have a location attached to it, as the map is rendered entirely from the DataList, in this case $flickrPhotos.
 
-For clustered and unclustered examples, see http://demo.weboftalent.asia/mappable/map-from-a-datalist-unclustered/ and http://demo.weboftalent.asia/mappable/map-with-datalist-clustered-markers/ respectively.
+For clustered and unclustered examples, see:
+http://demo.weboftalent.asia/mappable/map-from-a-datalist-unclustered/
+![Non Clustered DataList](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/datalsit-unclustered.png "Non Clustered DataList")
+http://demo.weboftalent.asia/mappable/map-with-datalist-clustered-markers/
+![Clustered DataList](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/datalsit-clustered.png "Non Clustered DataList")
+
 
