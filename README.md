@@ -17,7 +17,7 @@ Short codes are also provided to render Google Street View and Google maps.
 * [Multiple Maps on the Same Page](./docs/en/MultipleMapsSamePage.md)
 * [Mapping a DataList](./docs/en/MappingDataList.md)
 * [Map Layers](./docs/en/MapLayers.md)
-* [Adding Lines to Maps](./docs/en/AddingsLinesToMaps.md)
+* [Adding Lines to Maps](./docs/en/AddingLinesToMaps.md)
 * [Google Map Short Codes](./docs/en/GoogleMapShortCodes.md)
 * [Google Streeview Short Codes](./docs/en/GoogleStreetViewShortCodes.md)
 
