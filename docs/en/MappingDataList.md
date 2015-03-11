@@ -27,8 +27,8 @@ The map is positioned so that it shows all of the points automatically.  Also no
 
 For clustered and unclustered examples, see:
 http://demo.weboftalent.asia/mappable/map-from-a-datalist-unclustered/
-![Non Clustered DataList](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/datalsit-unclustered.png?raw=true "Non Clustered DataList")
+![Non Clustered DataList](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/datalist-unclustered.png?raw=true "Non Clustered DataList")
 http://demo.weboftalent.asia/mappable/map-with-datalist-clustered-markers/
-![Clustered DataList](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/datalsit-clustered.png?raw=true "Non Clustered DataList")
+![Clustered DataList](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/datalist-clustered.png?raw=true "Clustered DataList")
 
 
