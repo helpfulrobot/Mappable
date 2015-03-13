@@ -41,10 +41,11 @@ Analysis of the output shows that further grepping is require in order to extrac
  ```
 grep -i station trains.osm > stations.osm
  ```
- ###Create Points of Interest Layer
-In the SilverStripe model admin interface create a new PointsOfInterestLayer to contain the railway stations.
+###Create Points of Interest Layer
+In the SilverStripe model admin interface create a new PointsOfInterestLayer to contain the railway stations. Note that a common
+icon for the layer can be added here, if not the standard Google Map pin is used.
 
-PICTURE
+![Adding a new points of interest layer](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/poi-create-railway-layer.png?raw=true "Adding a new points of interest layer")
 
 Obtain the database ID, in this case the value 3.  This is required for scripting purposes.
 
@@ -55,7 +56,7 @@ mysql> select * from PointsOfInterestLayer;
 +----+-----------------------+---------------------+---------------------+------------------------------+---------------+
 |  1 | PointsOfInterestLayer | 2015-01-13 15:15:27 | 2015-01-13 16:26:01 | BTS Stations                 |           123 |
 |  2 | PointsOfInterestLayer | 2015-03-06 15:57:28 | 2015-03-10 17:38:25 | Seven Elevens in Thailand    |           126 |
-|  3 | PointsOfInterestLayer | 2015-03-13 11:26:16 | 2015-03-13 11:26:16 | Railway Stations in Thailand |             0 |
+|  3 | PointsOfInterestLayer | 2015-03-13 11:26:16 | 2015-03-13 11:26:16 | Railway Stations in Thailand |           123 |
 +----+-----------------------+---------------------+---------------------+------------------------------+---------------+
 ```
 
@@ -133,8 +134,17 @@ end
 puts "commit;"
 ```
 
-Output is many rows like this, the first line of each pair being the creation of the point of interest and the second associating it with the
-point of interest layer representing the stations.
+To use this script the format is
+```
+ruby parse_osm.rb <postgresql result file> <SilverStripe layer id>
+```
+so in the case of the example above
+```
+ruby parse_osm.rb stations.osm 3
+```
+
+Output is many rows of SQL like this, the first line of each pair being the creation of the point of interest and the second associating it with the point of interest layer representing the stations.  An improvement to this script would be the addition of escaping quotes but
+it wasn't a necessity for the data being loaded.
 ```
 INSERT INTO PointOfInterest(OpenStreetMapID,Name,Lat,Lon,ZoomLevel,Created,LastEdited,MapPinEdited) VALUES (  236480470 ,'Khlong Phutsa', 14.1860507762646 ,100.578314006055,16,now(),now(),true);
 INSERT INTO  PointsOfInterestLayer_PointsOfInterest(PointsOfInterestLayerID,PointOfInterestID) VALUES(3, LAST_INSERT_ID());
@@ -143,9 +153,12 @@ INSERT INTO PointOfInterest(OpenStreetMapID,Name,Lat,Lon,ZoomLevel,Created,LastE
 INSERT INTO  PointsOfInterestLayer_PointsOfInterest(PointsOfInterestLayerID,PointOfInterestID) VALUES(3, LAST_INSERT_ID());
 
 ```
-Note that the method LAST_INSERT_ID() is MySQL centric.
+Note that the method LAST_INSERT_ID() is MySQL centric.  If your SilverStripe database is hosted using PostgreSQL then change this to 'currval()'.
 
 ###View Data in SilverStripe
+he imported railway stations can now be seen and edited in the model admin interface.
+* List of railway stations. ![Railway Stations as POIs in Model Admin](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/poi-imported-railway-stations.png?raw=true "Railway Stations as POIs in Model Admin")
+* Editing the entry for Bankrut Railway Station. ![Editing a single station](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/poi-single-station-location.png?raw=true "Editing a single station")
 
 
 ###Public Rendered View
