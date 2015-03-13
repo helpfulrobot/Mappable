@@ -15,7 +15,6 @@ A new model admin tab is available called "Points of Interest".  Here you can ad
 ##Adding a New Layer
 Add a new layer, in this case "Supermarkets of Bangkok" and save it.
 ![Adding a new layer](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/001-poi-create-new-layer.png?raw=true "Adding a new layer")
-![New layer saved](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/002-poi-create-new-point-new-layer.png?raw=true "New layer saved")
 
 
 ##Adding a new Point of Interest to that Layer
