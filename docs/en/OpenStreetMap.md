@@ -158,7 +158,8 @@ An improvement to this script would be the addition of escaping quotes but it wa
 
 ### Add Points Of Interest Layer to an Existing Page
 Add the new layer in the 'Map Layers' tab for any page using the PointsOfInterestLayerExtension extension.  Type the word 'Railway' into the search box to the right of 'Points of Interest Layer'.  After a couple of seconds select 'Railway Stations of Thailand' and click 'Link Existing'.  Save and publish the page.
-![Adding railway layer](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/poi-adding-railway-layer.png?raw=true "Adding railway layer")
+* During the process of adding the railway stations layer ![Adding railway layer](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/poi-adding-railway-layer.png?raw=true "Adding railway layer")
+* After the railway stations layer was added ![Added railway layer](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/poi-adding-railway-layer-2.png?raw=true "Added railway layer")
 
 ###View Data in SilverStripe
 The imported railway stations can now be seen and edited in the model admin interface.
