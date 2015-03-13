@@ -1,5 +1,5 @@
 #Points of Interest
-A point of interest denotes a location on a map that is of interest, for example a bridge, a railway station, or a level crossing.  They are grouped together in layers, a PointOfInterest having a many many relationship with PointsOfInterestLayer.  This allows for the use case where "Crewe Railway Station" can appear in a "Railway Stations of Great Britain" layer as well as a "Railway Stations of England" layer.
+A point of interest (or POI) denotes a location on a map that is of interest, for example a bridge, a railway station, or a level crossing.  They are grouped together in layers, a PointOfInterest having a many many relationship with PointsOfInterestLayer.  This allows for the use case where "Crewe Railway Station" can appear in a "Railway Stations of Great Britain" layer as well as a "Railway Stations of England" layer.
 
 #Adding Points of Interest to a Page Type
 Whilst points of interest layers are available to edit after installing the Mappable module, they need to be added to a DataObject for rendering purposes.  Do this using the standard extensions mechanism in a yml file.  Note that MapExtension is also required.
@@ -18,7 +18,7 @@ A new model admin tab is available called "Points of Interest".  Here you can ad
 
 
 #Rendering
-The method BasicMap in MapExtension takes into account points of interest when rendering a map.  If you wish to do the rendering from within the object containing layers then use this code as a basis for rendering:
+The method BasicMap in MapExtension takes into account points of interest when rendering a map.  If you full control of the rendering from within the object containing POIs then use this code as a basis:
 
 ```
 public function BicycleRideMap() {
