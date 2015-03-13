@@ -146,3 +146,9 @@ INSERT INTO  PointsOfInterestLayer_PointsOfInterest(PointsOfInterestLayerID,Poin
 Note that the method LAST_INSERT_ID() is MySQL centric.
 
 ###View Data in SilverStripe
+
+
+###Public Rendered View
+####Map of Thailand with Railway Stations POIs Marked as Clusters
+* The entire country ![Railway Stations in Thailand](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/poi-clustered-stations.png?raw=true "Railway Stations in Thailand")
+* Zoomed in to show individual stations ![Railway Stations in Thailand - Chachaengsao Area](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/poi-clustered-stations-zoomin.png?raw=true "Railway Stations in Thailand - Chachaengsao Area")
