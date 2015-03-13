@@ -72,17 +72,17 @@ puts "/* Extracting from #{filename} */"
 puts "begin;"
 File.open(filename) do |file|
   file.each {|line| \
-  	ctr = ctr + 1
-  	if ctr < 3
-  		next
-  	end
-  	splits = line.split('|')
-  	if (splits.length == 6)
+    ctr = ctr + 1
+    if ctr < 3
+      next
+    end
+    splits = line.split('|')
+    if (splits.length == 6)
       puts
-  		osm_id = splits[0]
-  		name = splits[1]
-  		lat = splits[3]
-  		lon = splits[4].strip
+      osm_id = splits[0]
+      name = splits[1]
+      lat = splits[3]
+      lon = splits[4].strip
 
       #Tags are a comma separated list of key value pairs
       tags = {}
@@ -94,11 +94,18 @@ File.open(filename) do |file|
       while tagcols.length > 0
         value = tagcols.pop
         key = tagcols.pop
-        if key == 'name'
-          tagname = value
-        elsif key == 'name:en'
-          tagname = value
-        end
+        tags[key] = value  
+      end
+
+
+      if tags['name:en']
+        tagname = tags['name:en']
+      else
+        tagname = tags['name']
+      end
+
+      if tagname == nil
+        tagname = "UNDEFINED"
       end
 
       # Remove quotation marks
@@ -113,13 +120,13 @@ File.open(filename) do |file|
       tagname.strip!
 
       if tagname != 'UNDEFINED'
-        sql = "INSERT INTO PointOfInterest(OpenStreetMapID,Name,Lat,Lon,ZoomLevel,Created,LastEdited) VALUES (#{osm_id},'#{tagname}',#{lat},#{lon},16,now(),now());"
+        sql = "INSERT INTO PointOfInterest(OpenStreetMapID,Name,Lat,Lon,ZoomLevel,Created,LastEdited,MapPinEdited) VALUES (#{osm_id},'#{tagname}',#{lat},#{lon},16,now(),now(),true);"
         puts sql
         sql = "INSERT INTO  PointsOfInterestLayer_PointsOfInterest(PointsOfInterestLayerID,PointOfInterestID) VALUES(#{layerid}, LAST_INSERT_ID());"
         puts sql
       end
       
-  	end
+    end
   }
 end
 
@@ -129,8 +136,12 @@ puts "commit;"
 Output is many rows like this, the first line of each pair being the creation of the point of interest and the second associating it with the
 point of interest layer representing the stations.
 ```
-INSERT INTO PointOfInterest(OpenStreetMapID,Name,Lat,Lon,ZoomLevel,Created,LastEdited) VALUES (  236480470 ,'Khlong Phutsa', 14.1860507762646 ,100.578314006055,16,now(),now());
+INSERT INTO PointOfInterest(OpenStreetMapID,Name,Lat,Lon,ZoomLevel,Created,LastEdited,MapPinEdited) VALUES (  236480470 ,'Khlong Phutsa', 14.1860507762646 ,100.578314006055,16,now(),now(),true);
 INSERT INTO  PointsOfInterestLayer_PointsOfInterest(PointsOfInterestLayerID,PointOfInterestID) VALUES(3, LAST_INSERT_ID());
+
+INSERT INTO PointOfInterest(OpenStreetMapID,Name,Lat,Lon,ZoomLevel,Created,LastEdited,MapPinEdited) VALUES (  237445803 ,'Railway station Ayutthaya', 14.3567211927894 ,100.58319491232,16,now(),now(),true);
+INSERT INTO  PointsOfInterestLayer_PointsOfInterest(PointsOfInterestLayerID,PointOfInterestID) VALUES(3, LAST_INSERT_ID());
+
 ```
 Note that the method LAST_INSERT_ID() is MySQL centric.
 
