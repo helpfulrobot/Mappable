@@ -13,9 +13,15 @@ PageWithPointsOfInterest:
 A new model admin tab is available called "Points of Interest".  Here you can add new layers or edit existing ones.
 
 ##Adding a New Layer
+Add a new layer, in this case "Supermarkets of Bangkok" and save it.
+![Adding a new layer](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/001-poi-create-new-layer.png?raw=true "Adding a new layer")
+![New layer saved](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/002-poi-create-new-point-new-layer.png?raw=true "New layer saved")
 
-##Adding a new Point of Interest
 
+##Adding a new Point of Interest to that Layer
+![Adding a new supermarket](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/003-poi-create-new-point-location.png?raw=true "Adding a new supermarket")
+![Editing Location](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/004-poi-create-new-point-location.png?raw=true "Editing Location")
+![Point of Interest Saved](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/005-poi-saved.png?raw=true "Point of Interest Saved")
 
 #Rendering
 The method BasicMap in MapExtension takes into account points of interest when rendering a map.  If you full control of the rendering from within the object containing POIs then use this code as a basis:
