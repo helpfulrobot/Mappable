@@ -164,7 +164,8 @@ Add the new layer in the 'Map Layers' tab for any page using the PointsOfInteres
 ###View Data in SilverStripe
 The imported railway stations can now be seen and edited in the model admin interface.
 * List of railway stations. ![Railway Stations as POIs in Model Admin](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/poi-imported-railway-stations.png?raw=true "Railway Stations as POIs in Model Admin")
-* Editing the entry for Bankrut Railway Station. ![Editing a single station](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/poi-single-station-location.png?raw=true "Editing a single station")
+* Editing the entry for Bankrut Railway Station (1/2). ![Editing a single station](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/poi-editing-bankrut.png?raw=true "Editing a single station (1/2)")
+* Editing the entry for Bankrut Railway Station (2/2). ![Editing a single station](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/poi-single-station-location.png?raw=true "Editing a single station (2/2)")
 
 
 ###Public Rendered View
