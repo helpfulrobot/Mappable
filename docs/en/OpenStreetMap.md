@@ -43,7 +43,7 @@ grep -i station trains.osm > stations.osm
  ```
 ###Create Points of Interest Layer
 In the SilverStripe model admin interface create a new PointsOfInterestLayer to contain the railway stations. Note that a common
-icon for the layer can be added here, if not the standard Google Map pin is used.
+icon for the layer can be added here, if none is provided the standard Google Map pin is used.
 
 ![Adding a new points of interest layer](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/poi-create-railway-layer.png?raw=true "Adding a new points of interest layer")
 
@@ -62,7 +62,8 @@ mysql> select * from PointsOfInterestLayer;
 
 ###Convert Extracted Data to SQL for Import Into SilverStripe
 The following is an example Ruby script to extract the English name from the tags field, if one is defined, and output
-SQL that can be imported directly into the SilverStripe database for the site in question.
+SQL that can be imported directly into the SilverStripe database for the site in question.  It was saved as parse_osm.rb, the
+name is of course arbitrary.
 
 ```
 filename = ARGV[0]
@@ -143,8 +144,7 @@ so in the case of the example above
 ruby parse_osm.rb stations.osm 3
 ```
 
-Output is many rows of SQL like this, the first line of each pair being the creation of the point of interest and the second associating it with the point of interest layer representing the stations.  An improvement to this script would be the addition of escaping quotes but
-it wasn't a necessity for the data being loaded.
+Output is many rows of SQL like this, the first line of each pair being the creation of the point of interest and the second associating it with the point of interest layer representing the stations.
 ```
 INSERT INTO PointOfInterest(OpenStreetMapID,Name,Lat,Lon,ZoomLevel,Created,LastEdited,MapPinEdited) VALUES (  236480470 ,'Khlong Phutsa', 14.1860507762646 ,100.578314006055,16,now(),now(),true);
 INSERT INTO  PointsOfInterestLayer_PointsOfInterest(PointsOfInterestLayerID,PointOfInterestID) VALUES(3, LAST_INSERT_ID());
@@ -154,9 +154,14 @@ INSERT INTO  PointsOfInterestLayer_PointsOfInterest(PointsOfInterestLayerID,Poin
 
 ```
 Note that the method LAST_INSERT_ID() is MySQL centric.  If your SilverStripe database is hosted using PostgreSQL then change this to 'currval()'.
+An improvement to this script would be the addition of escaping quotes but it wasn't a necessity for the data being loaded.
+
+### Add Points Of Interest Layer to an Existing Page
+Add the new layer in the 'Map Layers' tab for any page using the PointsOfInterestLayerExtension extension.  Type the word 'Railway' into the search box to the right of 'Points of Interest Layer'.  After a couple of seconds select 'Railway Stations of Thailand' and click 'Link Existing'.  Save and publish the page.
+![Adding railway layer](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/poi-adding-railway-layer.png?raw=true "Adding railway layer")
 
 ###View Data in SilverStripe
-he imported railway stations can now be seen and edited in the model admin interface.
+The imported railway stations can now be seen and edited in the model admin interface.
 * List of railway stations. ![Railway Stations as POIs in Model Admin](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/poi-imported-railway-stations.png?raw=true "Railway Stations as POIs in Model Admin")
 * Editing the entry for Bankrut Railway Station. ![Editing a single station](https://github.com/gordonbanderson/Mappable/blob/screenshots/screenshots/poi-single-station-location.png?raw=true "Editing a single station")
 
