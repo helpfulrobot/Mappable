@@ -30,11 +30,18 @@ class MapField extends DatalessField {
         parent::__construct($name, $title, null, $allowHTML, $form);
     }
     
-    function Field() {
-        Requirements::javascript('sapphire/thirdparty/jquery/jquery.js');
-        Requirements::javascript('sapphire/thirdparty/jquery-livequery/jquery.livequery.js');
+    function Field($properties = array()) {
+        Requirements::javascript('framework/thirdparty/jquery/jquery.js');
+        Requirements::javascript('framework/thirdparty/jquery-livequery/jquery.livequery.js');
        // Requirements::javascript('http://maps.google.com/maps/api/js?sensor=false');
-        Requirements::javascript('mappable/javascript/mapField.js');
+
+
+       // Requirements::javascript('mappable/javascript/mapField.js');
+
+
+        
+
+
         $attributes = array(
             'class' => 'middleColumn',
             'id' => $this->divId,
@@ -43,7 +50,7 @@ class MapField extends DatalessField {
 
         Requirements::css('mappable/css/mapField.css');
         
-        return '<div style="width:400px;height:301px; display: inline; background: yellow;">' . $this->createTag(
+        return '<div class="editableMap">' . $this->createTag(
             "div",
             $attributes
         ) . '</div>';

@@ -1,6 +1,6 @@
 <?php
 
-class GoogleMapUtil
+class MapUtil
 {
 
 	/**
@@ -15,41 +15,36 @@ class GoogleMapUtil
 	 */
 	protected static $instances = 0;
 
-
 	/**
 	 * @var int The default width of a Google Map
 	 */
-	public static $map_width = 400;
-	
+	public static $map_width = '100%';
 	
 	/**
 	 * @var int The default height of a Google Map
 	 */
-	public static $map_height = 400;
+	public static $map_height = '400px';
 
-        /** @var int Icon width of the gmarker **/
-        public static $iconWidth = 24;
+    /** @var int Icon width of the gmarker **/
+    public static $iconWidth = 24;
 
-        /** @var int Icon height of the gmarker **/
-        public static $iconHeight = 24;
+    /** @var int Icon height of the gmarker **/
+    public static $iconHeight = 24;
 		
 	/**
 	 * @var int Prefix for the div ID of the map
 	 */
 	public static $div_id = "google_map";
 	
-	
 	/**
 	 * @var boolean Automatic center/zoom for the map
 	 */
 	public static $automatic_center = true;
 	
-	
 	/**
 	 * @var boolean Show directions fields on the map
 	 */
 	public static $direction_fields = false;
-	
 	
 	/**
 	 * @var boolean Show the marker fields on the map
@@ -61,16 +56,20 @@ class GoogleMapUtil
 	 */
 	public static $map_type = 'google.maps.MapTypeId.ROADMAP';
 
-        /**
-         * @var string $center Center of map (adress)
-         */
+	/**
+	 * @var string $center Center of map (adress)
+	 */
 	public static $center = 'Paris, France';
 
-        /**
-         * @var int info_window_width Width of info window
-         */
+	/**
+	 * @var int info_window_width Width of info window
+	 */
 
-        public static $info_window_width = 250;
+	/* Width of the map information window */
+	public static $info_window_width = 250;
+
+	/* Signals whether at least one map has already been rendered */
+	private static $map_already_rendered = false;
 	
 	
 	/**
@@ -80,6 +79,15 @@ class GoogleMapUtil
 	 */
 	public static function set_api_key($key) {
 		self::$api_key = $key;
+	}
+
+
+	public static function set_map_already_rendered($new_map_already_rendered) {
+		self::$map_already_rendered = $new_map_already_rendered;
+	}
+
+	public static function get_map_already_rendered() {
+		return self::$map_already_rendered;
 	}
 	
 	
@@ -168,16 +176,17 @@ class GoogleMapUtil
 			$key = $key[$host];
 		}
 
-		$gmap = new GoogleMapAPI($key);
+		$gmap = new MapAPI($key);
 		$gmap->setDivId(self::$div_id."_".self::$instances);
 		$gmap->setEnableAutomaticCenterZoom(self::$automatic_center);
 		$gmap->setDisplayDirectionFields(self::$direction_fields);
 		$gmap->setSize(self::$map_width, self::$map_height);
 		$gmap->setDefaultHideMarker(self::$hide_marker);
-                $gmap->setMapType(self::$map_type);
-                $gmap->setInfoWindowWidth(self::$info_window_width);
-                $gmap->setCenter(self::$center);
-                $gmap->setIconSize(self::$iconWidth, self::$iconHeight);
+        $gmap->setMapType(self::$map_type);
+        $gmap->setInfoWindowWidth(self::$info_window_width);
+        $gmap->setCenter(self::$center);
+        $gmap->setIconSize(self::$iconWidth, self::$iconHeight);
+        $gmap->setIncludeDownloadJavascript(self::$map_already_rendered);
 		return $gmap;
 	}
 
@@ -195,19 +204,21 @@ class GoogleMapUtil
 	
 	/**
 	 * Creates a new {@link GoogleMapsAPI} object loaded with the default settings
-	 * and places all of the items in a {@link DataObjectSet} on the map
+	 * and places all of the items in a {@link SS_List}, e.g. {@link DataList} or {@link ArrayList} on the map
 	 *
-	 * @param DataObjectSet $set
-	 * @return GoogleMapsAPI
+	 * @param SS_List $set
+	 * @return MapAPI
 	 */
-	public static function get_map(DataObjectSet $set) {
+	public static function get_map(SS_List $list) {
 		$gmap = self::instance();
-		if($set) {
-		    foreach($set as $obj) {
-		    	$gmap->addMarkerAsObject($obj);
-		    }
+		if($list) {
+			$arr = $list->toArray();
+			foreach ($arr as $mappable) {
+				if ($mappable->MapPinEdited) {
+					$gmap->addMarkerAsObject($mappable);
+				}
+			}
 		}
 		return $gmap;	
-	}
-		
+	}		
 }
