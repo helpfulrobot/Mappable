@@ -6,7 +6,7 @@ class GoogleStreetViewShortCodeHandler {
 	private static $gsv_ctr = 1;
 
 
-	public static function parse_googlestreetview( $arguments, $caption = null, $parser = null ) {
+	public static function parse_googlestreetview($arguments, $caption = null, $parser = null) {
 		// each of latitude, longitude and heading are required at a bare minimum
 		if(!isset($arguments['latitude'])){
 			return '';
@@ -60,9 +60,9 @@ class GoogleStreetViewShortCodeHandler {
 		$customised = array_merge($defaults, $arguments);
 
 		//get streetview template template
-		$template = new SSViewer( 'GoogleStreetView' );
+		$template = new SSViewer('GoogleStreetView');
 
 		//return the template customised with the parmameters
-		return $template->process( new ArrayData( $customised ) );
+		return $template->process(new ArrayData($customised));
 	}
 }
