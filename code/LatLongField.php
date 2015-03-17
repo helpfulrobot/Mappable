@@ -17,8 +17,12 @@ class LatLongField extends FieldGroup {
 	protected $buttonText;
 
 	public function __construct( $children = array(), $addressFields = array(), $buttonText = null ) {
-		if ( ( sizeof( $children ) < 2 ) || ( !$children[0] instanceof FormField ) || ( !$children[1] instanceof FormField ) ) {
-			user_error( 'LatLongField argument 1 must be an array containing at least two FormField objects for Lat/Long values, respectively.', E_USER_ERROR );
+		if ( ( sizeof( $children ) < 2 ) ||
+			 ( !$children[0] instanceof FormField ) ||
+			 ( !$children[1] instanceof FormField )
+		) {
+			user_error( 'LatLongField argument 1 must be an array containing at least two FormField '.
+				'objects for Lat/Long values, respectively.', E_USER_ERROR );
 		}
 		parent::__construct( $children );
 		$this->addressFields = $addressFields;
@@ -40,8 +44,6 @@ class LatLongField extends FieldGroup {
 			$fieldToHide->addExtraClass( 'hide' );
 		}
 
-
-
 		$this->name = $name;
 	}
 
@@ -62,13 +64,7 @@ var zoomFieldName = "'.$this->zoomField.'";
 		</script>
 	';
 
-
-
-	//Requirements::javascriptTemplate( MAPPABLE_MODULE_PATH.'/javascript/mapField.js', $fieldNames );
 		Requirements::javascript( MAPPABLE_MODULE_PATH.'/javascript/mapField.js' );
-
-		//$this->FieldList()->push( new MapField( 'GoogleMap', 'GoogleMap' ) );
-
 		$attributes = array(
             'class' => 'editableMap',
             'id' => 'GoogleMap',
@@ -84,7 +80,8 @@ var zoomFieldName = "'.$this->zoomField.'";
         	$guidePointsJSON = json_encode($this->guidePoints);
         	$attributes['data-GuidePoints'] = $guidePointsJSON;
 
-        	// we only wish to change the bounds to those of all the points iff the item currently has no location
+        	// we only wish to change the bounds to those of all the points iff
+        	// the item currently has no location
         	$attributes['data-useMapBounds'] = true;
         }
         $content = '<div class="editableMapWrapper">' . $this->createTag(
@@ -101,17 +98,22 @@ var zoomFieldName = "'.$this->zoomField.'";
     	<button class="action" id="searchLocationButton">Search Location Name</button>
       		<div id="mapSearchResults">
       	</div>
-    </div>
-    ';
+	    </div>
+	    ';
 
 		$this->FieldList()->push( new LiteralField( 'mapSearch', $content2 ) );
 
 		return parent::FieldHolder();
 	}
 
+	/*
+	Perform place name search as a means of navigation when editing locations
+	*/
 	public function geocode( SS_HTTPRequest $r ) {
 		if ( $address = $r->requestVar( 'address' ) ) {
-			if ( $json = @file_get_contents( "http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=".urlencode( $address ) ) ) {
+			if ( $json = @file_get_contents(
+				"http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=".
+				urlencode( $address ) ) ) {
 				$response = Convert::json2array( $json );
 				$location = $response['results'][0]->geometry->location;
 				return new SS_HTTPResponse( $location->lat.",".$location->lng );
@@ -119,13 +121,14 @@ var zoomFieldName = "'.$this->zoomField.'";
 		}
 	}
 
+
 	/*
-	Set guidance points for the map being edited.  For example in a photographic set show the map position of some other images
-	so that subsequent photo edits do not start with a map centred on the horizon
+	Set guidance points for the map being edited.  For example in a photographic set show the map
+	position of some other images so that subsequent photo edits do not start with a map centred
+	on the horizon
 	*/
 	public function setGuidePoints($guidePoints) {
 		$this->guidePoints = $guidePoints;
 	}
 
 }
-?>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class PointOfInterest extends DataObject {
 	private static $description = 'Represents a point of interest on a map, e.g. railway station';

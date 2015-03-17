@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class OSMPointOfInterestExtension extends DataExtension {
 	private static $db = array(
