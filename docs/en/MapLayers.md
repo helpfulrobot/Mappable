@@ -1,7 +1,7 @@
 #Map Layers
 KML layers can be added through the CMS by adding an extension to the class in question.
 
-```
+```php
 <?php
  
 // layers are configured in _config.php
@@ -18,7 +18,7 @@ class PageWithMapAndLayers_Controller extends DemoPage_Controller {
 
 Add this to extensions.yml
 
-```
+```yml
 PageWithMapAndLayers:
 	extensions:
 		['MapExtension', 'MapLayersExtension']
