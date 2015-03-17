@@ -4,7 +4,7 @@ class MapMarkerSetsExtension extends DataExtension {
 
 	static $many_many = array(
 		'MapMarkerSets' => 'MapMarkerSet'
-	 );
+	);
 
 
 	static $belongs_many_many_extraFields = array(
@@ -14,10 +14,10 @@ class MapMarkerSetsExtension extends DataExtension {
 	);
 
 
-	public function updateCMSFields( FieldList $fields ) {
+	public function updateCMSFields(FieldList $fields) {
 		$gridConfig2 = GridFieldConfig_RelationEditor::create();
 		$gridConfig2->getComponentByType(
-			'GridFieldAddExistingAutocompleter' )->setSearchFields( array( 'Title' )
+			'GridFieldAddExistingAutocompleter')->setSearchFields(array('Title')
 		);
 		$gridConfig2->getComponentByType('GridFieldPaginator')->setItemsPerPage(100);
 
@@ -26,7 +26,7 @@ class MapMarkerSetsExtension extends DataExtension {
 			$this->owner->MapMarkerSets(),
 			$gridConfig2
 		);
-		$fields->addFieldToTab( "Root.MapMarkerSets", $gridField2 );
+		$fields->addFieldToTab("Root.MapMarkerSets", $gridField2);
 	}
 
 }

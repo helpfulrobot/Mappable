@@ -4,7 +4,7 @@ class PointsOfInterestLayerExtension extends DataExtension {
 
 	static $many_many = array(
 			'PointsOfInterestLayers' => 'PointsOfInterestLayer'
-	 );
+	);
 
 	static $belongs_many_many_extraFields = array(
 			'PointsOfInterestLayers' => array(
@@ -13,13 +13,13 @@ class PointsOfInterestLayerExtension extends DataExtension {
 	);
 
 
-	public function updateCMSFields( FieldList $fields ) {
+	public function updateCMSFields(FieldList $fields) {
 		$gridConfig2 = GridFieldConfig_RelationEditor::create();
 		$gridConfig2->getComponentByType(
 			'GridFieldAddExistingAutocompleter')->
-			setSearchFields( array('Name')
+			setSearchFields(array('Name')
 		);
-		$gridConfig2->getComponentByType('GridFieldPaginator')->setItemsPerPage( 100 );
+		$gridConfig2->getComponentByType('GridFieldPaginator')->setItemsPerPage(100);
 		$gridField2 = new GridField("POI Layers", "POI Layers:",
 			$this->owner->PointsOfInterestLayers(),
 			$gridConfig2

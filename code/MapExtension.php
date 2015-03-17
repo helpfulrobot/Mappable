@@ -29,7 +29,7 @@ class MapExtension extends DataExtension implements Mappable {
 	/*
 	Add a Location tab containing the map
 	*/
-	public function updateCMSFields( FieldList $fields ) {
+	public function updateCMSFields(FieldList $fields) {
 		// These fields need removed, as they may have already been created by the form scaffolding
 		$fields->removeByName('Lat');
 		$fields->removeByName('Lon');
@@ -37,17 +37,17 @@ class MapExtension extends DataExtension implements Mappable {
 		$fields->removeByName('MapPinIcon');
 		$fields->removeByName('MapPinEdited');
 
-		$fields->addFieldToTab( "Root.Location",
-			new LatLongField( array(
-			new TextField( 'Lat', 'Latitude' ),
-			new TextField( 'Lon', 'Longitude' ),
-			new TextField( 'ZoomLevel', 'Zoom' )
+		$fields->addFieldToTab("Root.Location",
+			new LatLongField(array(
+			new TextField('Lat', 'Latitude'),
+			new TextField('Lon', 'Longitude'),
+			new TextField('ZoomLevel', 'Zoom')
 		),
-			array( 'Address' )
+			array('Address')
 		)
 		);
 
-		$fields->addFieldToTab( 'Root.Location', $uf = new UploadField('MapPinIcon',
+		$fields->addFieldToTab('Root.Location', $uf = new UploadField('MapPinIcon',
 			_t('Mappable.MAP_PIN', 'Map Pin Icon.  Leave this blank for default pin to show')));
 		$uf->setFolderName('mapicons');
 	}
@@ -134,9 +134,9 @@ class MapExtension extends DataExtension implements Mappable {
 	*/
 	public function BasicMap() {
 		$map = $this->owner->getRenderableMap();
-		$map->setZoom( $this->owner->ZoomLevel );
-		$map->setAdditionalCSSClasses( 'fullWidthMap' );
-		$map->setShowInlineMapDivStyle( true );
+		$map->setZoom($this->owner->ZoomLevel);
+		$map->setAdditionalCSSClasses('fullWidthMap');
+		$map->setShowInlineMapDivStyle(true);
 
 		// add any KML map layers
 		if (Object::has_extension($this->owner->ClassName, 'MapLayerExtension')) {
@@ -162,13 +162,13 @@ class MapExtension extends DataExtension implements Mappable {
 		  }
 		}
 	  }
-	  $map->setClusterer( true );
+	  $map->setClusterer(true);
 	  $map->setEnableAutomaticCenterZoom(true);
 	}
 
-	$map->setZoom( 10 );
-	$map->setAdditionalCSSClasses( 'fullWidthMap' );
-	$map->setShowInlineMapDivStyle( true );
+	$map->setZoom(10);
+	$map->setAdditionalCSSClasses('fullWidthMap');
+	$map->setShowInlineMapDivStyle(true);
 	$map->setClusterer(true);
 
 	return $map;

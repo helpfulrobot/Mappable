@@ -102,7 +102,7 @@ class MapUtil
     /**
       * Set the type of the gmap
       *
-      * @param string $mapType ( can be 'google.maps.MapTypeId.ROADMAP', 'G_SATELLITE_MAP',
+      * @param string $mapType (can be 'google.maps.MapTypeId.ROADMAP', 'G_SATELLITE_MAP',
       * 'G_HYBRID_MAP', 'G_PHYSICAL_MAP')
       *
       * @return void

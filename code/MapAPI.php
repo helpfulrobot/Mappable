@@ -209,7 +209,7 @@ var styles = [
 	 * @return void
 	 */
 
-	public function __construct( $googleMapKey='' ) {
+	public function __construct($googleMapKey='') {
 		$this->googleMapKey = $googleMapKey;
 	}
 
@@ -221,7 +221,7 @@ var styles = [
 	 * @return void
 	 */
 
-	public function setKey( $googleMapKey ) {
+	public function setKey($googleMapKey) {
 		$this->googleMapKey = $googleMapKey;
 	}
 
@@ -230,22 +230,22 @@ var styles = [
 	}
 
 
-	public function setShowInlineMapDivStyle( $new_show_inline_map_div_style ) {
+	public function setShowInlineMapDivStyle($new_show_inline_map_div_style) {
 		$this->show_inline_map_div_style = $new_show_inline_map_div_style;
 	}
 
-	public function setAdditionalCSSClasses( $new_additional_css_classes ) {
+	public function setAdditionalCSSClasses($new_additional_css_classes) {
 		$this->additional_css_classes = $new_additional_css_classes;
 	}
 
 
-	public function setMapStyles( $newStyles ) {
+	public function setMapStyles($newStyles) {
 		$this->jsonMapStyles = $newStyles;
 	}
 
 
 
-	public function setDelayLoadMapFunction( $newDelay ) {
+	public function setDelayLoadMapFunction($newDelay) {
 		$this->delayLoadMapFunction = $newDelay;
 	}
 
@@ -262,8 +262,8 @@ var styles = [
 	 * @return void
 	 */
 
-	public function setClusterer( $useClusterer, $gridSize=100, $maxZoom=9,
-			$clustererLibraryPath='mappable/javascript/Fluster2.packed.js' ) {
+	public function setClusterer($useClusterer, $gridSize=100, $maxZoom=9,
+			$clustererLibraryPath='mappable/javascript/Fluster2.packed.js') {
 		$this->useClusterer = $useClusterer;
 		$this->gridSize = $gridSize;
 		$this->maxZoom = $maxZoom;
@@ -278,7 +278,7 @@ var styles = [
 	 * @return void
 	 */
 
-	public function setDivId( $googleMapId ) {
+	public function setDivId($googleMapId) {
 		$this->googleMapId = $googleMapId;
 	}
 
@@ -290,7 +290,7 @@ var styles = [
 	 * @return void
 	 */
 
-	public function setDirectionDivId( $googleMapDirectionId ) {
+	public function setDirectionDivId($googleMapDirectionId) {
 		$this->googleMapDirectionId = $googleMapDirectionId;
 	}
 
@@ -303,7 +303,7 @@ var styles = [
 	 * @return void
 	 */
 
-	public function setSize( $width, $height ) {
+	public function setSize($width, $height) {
 		$this->width = $width;
 		$this->height = $height;
 	}
@@ -316,7 +316,7 @@ var styles = [
 	 * @return void
 	 */
 
-	public function setInfoWindowWidth( $infoWindowWidth ) {
+	public function setInfoWindowWidth($infoWindowWidth) {
 		$this->infoWindowWidth = $infoWindowWidth;
 	}
 
@@ -329,7 +329,7 @@ var styles = [
 	 * @return void
 	 */
 
-	public function setIconSize( $iconWidth, $iconHeight ) {
+	public function setIconSize($iconWidth, $iconHeight) {
 		$this->iconWidth = $iconWidth;
 		$this->iconHeight = $iconHeight;
 	}
@@ -342,7 +342,7 @@ var styles = [
 	 * @return void
 	 */
 
-	public function setLang( $lang ) {
+	public function setLang($lang) {
 		$this->lang = $lang;
 	}
 
@@ -354,7 +354,7 @@ var styles = [
 	 * @return void
 	 */
 
-	public function setZoom( $zoom ) {
+	public function setZoom($zoom) {
 		$this->zoom = $zoom;
 	}
 
@@ -366,7 +366,7 @@ var styles = [
 	 * @return void
 	 */
 
-	public function setInfoWindowZoom( $infoWindowZoom ) {
+	public function setInfoWindowZoom($infoWindowZoom) {
 		$this->infoWindowZoom = $infoWindowZoom;
 	}
 
@@ -378,7 +378,7 @@ var styles = [
 	 * @return void
 	 */
 
-	public function setEnableWindowZoom( $enableWindowZoom ) {
+	public function setEnableWindowZoom($enableWindowZoom) {
 		$this->enableWindowZoom = $enableWindowZoom;
 	}
 
@@ -390,7 +390,7 @@ var styles = [
 	 * @return void
 	 */
 
-	public function setEnableAutomaticCenterZoom( $enableAutomaticCenterZoom ) {
+	public function setEnableAutomaticCenterZoom($enableAutomaticCenterZoom) {
 		$this->enableAutomaticCenterZoom = $enableAutomaticCenterZoom;
 	}
 
@@ -402,34 +402,34 @@ var styles = [
 	 * @return void
 	 */
 
-	public function setCenter( $center ) {
+	public function setCenter($center) {
 		$this->center = $center;
 	}
 
 	/**
 	 * Set the type of the gmap
 	 *
-	 * @param string  $mapType ( can be 'google.maps.MapTypeId.ROADMAP',
+	 * @param string  $mapType (can be 'google.maps.MapTypeId.ROADMAP',
 	 * 'G_SATELLITE_MAP', 'G_HYBRID_MAP', 'G_PHYSICAL_MAP')
 	 *
 	 * @return void
 	 */
 
-	public function setMapType( $mapType ) {
+	public function setMapType($mapType) {
 		$this->mapType = $mapType;
 	}
 
 	/*
 	Set whether or not to allow the full screen tools
 	*/
-	public function setAllowFullScreen( $allowed ) {
+	public function setAllowFullScreen($allowed) {
 		$this->allowFullScreen = $allowed;
 	}
 
 	/**
 	* Set the center of the gmap
 	**/
-	public function setLatLongCenter( $center ) {
+	public function setLatLongCenter($center) {
 		$this->latLongCenter = $center;
 	}
 
@@ -441,7 +441,7 @@ var styles = [
 	 * @return void
 	 */
 
-	public function setDisplayDirectionFields( $displayDirectionFields ) {
+	public function setDisplayDirectionFields($displayDirectionFields) {
 		$this->displayDirectionFields = $displayDirectionFields;
 	}
 
@@ -453,7 +453,7 @@ var styles = [
 	 * @return void
 	 */
 
-	public function setDefaultHideMarker( $defaultHideMarker ) {
+	public function setDefaultHideMarker($defaultHideMarker) {
 		$this->defaultHideMarker = $defaultHideMarker;
 	}
 
@@ -477,14 +477,14 @@ var styles = [
 	 * @todo add proxy settings
 	 */
 
-	public function getContent( $url ) {
+	public function getContent($url) {
 		$curl = curl_init();
-		curl_setopt( $curl, CURLOPT_TIMEOUT, 10 );
-		curl_setopt( $curl, CURLOPT_CONNECTTIMEOUT, 5 );
-		curl_setopt( $curl, CURLOPT_RETURNTRANSFER, TRUE );
-		curl_setopt( $curl, CURLOPT_URL, $url );
-		$data = curl_exec( $curl );
-		curl_close( $curl );
+		curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		$data = curl_exec($curl);
+		curl_close($curl);
 		return $data;
 	}
 
@@ -496,20 +496,20 @@ var styles = [
 	 * @return array array with precision, lat & lng
 	 */
 
-	public function geocoding( $address ) {
-		$encodeAddress = urlencode( $address );
+	public function geocoding($address) {
+		$encodeAddress = urlencode($address);
 		$url = "//maps.google.com/maps/geo?q=".$encodeAddress."&output=csv&key=".$this->googleMapKey;
 
-		if ( function_exists( 'curl_init' ) ) {
-			$data = $this->getContent( $url );
+		if (function_exists('curl_init')) {
+			$data = $this->getContent($url);
 		} else {
-			$data = file_get_contents( $url );
+			$data = file_get_contents($url);
 		}
 
-		$csvSplit = preg_split( "/,/", $data );
+		$csvSplit = preg_split("/,/", $data);
 		$status = $csvSplit[0];
 
-		if ( strcmp( $status, "200" ) == 0 ) {
+		if (strcmp($status, "200") == 0) {
 			/*
 			For a successful geocode:
 			- $precision = $csvSplit[1
@@ -535,15 +535,15 @@ var styles = [
 	 * @return void
 	 */
 
-	public function addMarkerByCoords( $lat, $lng, $html='', $category='', $icon='' ) {
+	public function addMarkerByCoords($lat, $lng, $html='', $category='', $icon='') {
 
 		// Save the lat/lon to enable the automatic center/zoom
-		$this->maxLng = (float) max( (float)$lng, $this->maxLng );
-		$this->minLng = (float) min( (float)$lng, $this->minLng );
-		$this->maxLat = (float) max( (float)$lat, $this->maxLat );
-		$this->minLat = (float) min( (float)$lat, $this->minLat );
-		$this->centerLng = (float) ( $this->minLng + $this->maxLng ) / 2;
-		$this->centerLat = (float) ( $this->minLat + $this->maxLat ) / 2;
+		$this->maxLng = (float) max((float)$lng, $this->maxLng);
+		$this->minLng = (float) min((float)$lng, $this->minLng);
+		$this->maxLat = (float) max((float)$lat, $this->maxLat);
+		$this->minLat = (float) min((float)$lat, $this->minLat);
+		$this->centerLng = (float) ($this->minLng + $this->maxLng) / 2;
+		$this->centerLat = (float) ($this->minLat + $this->maxLat) / 2;
 		$iconURL = null;
 		if ($icon) {
 			$iconURL = $icon->getURL();
@@ -570,10 +570,10 @@ var styles = [
 	 * @return void
 	 */
 
-	public function addMarkerByAddress( $address, $content='', $category='', $icon='' ) {
-		$point = $this->geocoding( $address );
-		if ( $point!==null ) {
-			$this->addMarkerByCoords( $point[2], $point[3], $content, $category, $icon );
+	public function addMarkerByAddress($address, $content='', $category='', $icon='') {
+		$point = $this->geocoding($address);
+		if ($point!==null) {
+			$this->addMarkerByCoords($point[2], $point[3], $content, $category, $icon);
 		} else {
 			// throw new Exception('Adress not found : '.$address);
 		}
@@ -589,9 +589,9 @@ var styles = [
 	 * @return void
 	 */
 
-	public function addArrayMarkerByCoords( $coordtab, $category='', $icon='' ) {
-		foreach ( $coordtab as $coord ) {
-			$this->addMarkerByCoords( $coord[0], $coord[1], $coord[2], $category, $icon );
+	public function addArrayMarkerByCoords($coordtab, $category='', $icon='') {
+		foreach ($coordtab as $coord) {
+			$this->addMarkerByCoords($coord[0], $coord[1], $coord[2], $category, $icon);
 		}
 	}
 
@@ -602,7 +602,7 @@ var styles = [
 	 *
 	 * @param ViewableData $obj
 	 */
-	public function addMarkerAsObject( ViewableData $obj ) {
+	public function addMarkerAsObject(ViewableData $obj) {
 		$extensionsImplementMappable = false;
 		$extensions = Object::get_extensions(get_class($obj));
 
@@ -613,12 +613,12 @@ var styles = [
 			}
 
 		}
-		if ( $extensionsImplementMappable ||
+		if ($extensionsImplementMappable ||
 			($obj instanceof Mappable) ||
 			(Object::has_extension($obj->ClassName, 'MapExtension'))
 		) {
 			//if(($obj->getMappableLatitude() > 0) || ($obj->getMappableLongitude() > 0)) {
-			$cat = $obj->hasMethod( 'getMappableMapCategory' ) ? $obj->getMappableMapCategory() : "default";
+			$cat = $obj->hasMethod('getMappableMapCategory') ? $obj->getMappableMapCategory() : "default";
 			$this->addMarkerByCoords(
 				$obj->getMappableLatitude(),
 				$obj->getMappableLongitude(),
@@ -637,10 +637,10 @@ var styles = [
 	 * @param ViewableData $two   The second point
 	 * @param string  $color The hexidecimal color of the line
 	 */
-	public function connectPoints( ViewableData $one, ViewableData $two, $color = "#FF3300" ) {
+	public function connectPoints(ViewableData $one, ViewableData $two, $color = "#FF3300") {
 		$this->addLine(
-			array( $one->getMappableLatitude(), $one->getMappableLongitude() ),
-			array( $two->getMappableLatitude(), $two->getMappableLongitude() ),
+			array($one->getMappableLatitude(), $one->getMappableLongitude()),
+			array($two->getMappableLatitude(), $two->getMappableLongitude()),
 			$color
 		);
 	}
@@ -662,9 +662,9 @@ var styles = [
 	 * @return void
 	 */
 
-	public function addArrayMarkerByAddress( $coordtab, $category='', $icon='' ) {
-		foreach ( $coordtab as $coord ) {
-			$this->addMarkerByAddress( $coord[0], $coord[1], $category, $icon );
+	public function addArrayMarkerByAddress($coordtab, $category='', $icon='') {
+		foreach ($coordtab as $coord) {
+			$this->addMarkerByAddress($coord[0], $coord[1], $category, $icon);
 		}
 	}
 
@@ -678,7 +678,7 @@ var styles = [
 	 * @return void
 	 */
 
-	public function addDirection( $from, $to, $idpanel='' ) {
+	public function addDirection($from, $to, $idpanel='') {
 		$this->contentMarker .= 'addDirection("'.$from.'","'.$to.'","'.$idpanel.'");';
 	}
 
@@ -690,7 +690,7 @@ var styles = [
 	 * @return void
 	 */
 
-	public function addKML( $url ) {
+	public function addKML($url) {
 		array_push($this->kmlFiles, $url);
 	}
 
@@ -699,7 +699,7 @@ var styles = [
 	Add a line to the map
 
 	*/
-	public function addLine( $from = array(), $to = array(), $color = "#FF3300" ) {
+	public function addLine($from = array(), $to = array(), $color = "#FF3300") {
 		$line = array(
 			'lat1' => $from[0],
 			'lon1' => $from[1],
@@ -757,11 +757,11 @@ function jsonRemoveUnicodeSequences($struct) {
 
 
 		 // Center of the GMap
-		$geocodeCentre = ( $this->latLongCenter ) ?
-							$this->latLongCenter : $this->geocoding( $this->center );
+		$geocodeCentre = ($this->latLongCenter) ?
+							$this->latLongCenter : $this->geocoding($this->center);
 
 		// coordinates for centre depending on which method used
-		if ( $geocodeCentre[0]=="200" ) { // success
+		if ($geocodeCentre[0]=="200") { // success
 			$latlngCentre = array('lat'=>$geocodeCentre[2],'lng' => $geocodeCentre[3]);
 		} else { // Paris
 			$latlngCentre = array('lat'=>48.8792, 'lng' => 2.34778);
@@ -841,12 +841,12 @@ function jsonRemoveUnicodeSequences($struct) {
 	}
 
 
-	 function processTemplate( $templateName, $templateVariables = null  ) {
+	 function processTemplate($templateName, $templateVariables = null ) {
 		if (!$templateVariables) {
 			$templateVariables = new ArrayList();
 		}
 
-		$result = $templateVariables->renderWith($templateName.$this->mappingService );
+		$result = $templateVariables->renderWith($templateName.$this->mappingService);
 		return $result;
 	}
 }

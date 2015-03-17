@@ -16,44 +16,46 @@ class LatLongField extends FieldGroup {
 
 	protected $buttonText;
 
-	public function __construct( $children = array(), $addressFields = array(), $buttonText = null ) {
-		if ( ( sizeof( $children ) < 2 ) ||
-			 ( !$children[0] instanceof FormField ) ||
-			 ( !$children[1] instanceof FormField )
+	public function __construct($children = array(), $addressFields = array(), $buttonText = null) {
+		if ((sizeof($children) < 2) ||
+			 (!$children[0] instanceof FormField) ||
+			 (!$children[1] instanceof FormField)
 		) {
-			user_error( 'LatLongField argument 1 must be an array containing at least two FormField '.
-				'objects for Lat/Long values, respectively.', E_USER_ERROR );
+			user_error('LatLongField argument 1 must be an array containing at least two FormField '.
+				'objects for Lat/Long values, respectively.', E_USER_ERROR);
 		}
-		parent::__construct( $children );
+		parent::__construct($children);
 		$this->addressFields = $addressFields;
 
-		$this->buttonText = $buttonText ? $buttonText : _t( 'LatLongField.LOOKUP', 'Search' );
+		$this->buttonText = $buttonText ? $buttonText : _t('LatLongField.LOOKUP', 'Search');
 		$this->latField = $children[0]->getName();
 		$this->longField = $children[1]->getName();
 
-		if ( sizeof( $children ) == 3 ) {
+		if (sizeof($children) == 3) {
 			$this->zoomField = $children[2]->getName();
 		}
 		$name = "";
-		foreach ( $children as $field ) {
+		foreach ($children as $field) {
 			$name .= $field->getName();
 		}
 
 		// hide the lat long and zoom fields from the interface
-		foreach ( $this->FieldList() as $fieldToHide ) {
-			$fieldToHide->addExtraClass( 'hide' );
+		foreach ($this->FieldList() as $fieldToHide) {
+			$fieldToHide->addExtraClass('hide');
 		}
 
 		$this->name = $name;
 	}
 
 
-	public function hasData() {return true;}
+	public function hasData() {
+		return true;
+	}
 
-	public function FieldHolder( $properties = array() ) {
-		Requirements::javascript( THIRDPARTY_DIR.'/jquery/jquery.js' );
-		Requirements::javascript( THIRDPARTY_DIR.'/jquery-livequery/jquery.livequery.js' );
-		Requirements::javascript( THIRDPARTY_DIR.'/jquery-metadata/jquery.metadata.js' );
+	public function FieldHolder($properties = array()) {
+		Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
+		Requirements::javascript(THIRDPARTY_DIR.'/jquery-livequery/jquery.livequery.js');
+		Requirements::javascript(THIRDPARTY_DIR.'/jquery-metadata/jquery.metadata.js');
 		//Requirements::javascript(MAPPABLE_MODULE_PATH.'/javascript/mapField.js');
 
 		$js = '
@@ -64,7 +66,7 @@ var zoomFieldName = "'.$this->zoomField.'";
 		</script>
 	';
 
-		Requirements::javascript( MAPPABLE_MODULE_PATH.'/javascript/mapField.js' );
+		Requirements::javascript(MAPPABLE_MODULE_PATH.'/javascript/mapField.js');
 		$attributes = array(
             'class' => 'editableMap',
             'id' => 'GoogleMap',
@@ -72,7 +74,7 @@ var zoomFieldName = "'.$this->zoomField.'";
 			'data-LonFieldName' => $this->longField,
 			'data-ZoomFieldName' => $this->zoomField,
 			'data-UseMapBounds' => false
-        );
+       );
 
         Requirements::css('mappable/css/mapField.css');
         $guidePointsJSON = '';
@@ -87,9 +89,9 @@ var zoomFieldName = "'.$this->zoomField.'";
         $content = '<div class="editableMapWrapper">' . $this->createTag(
             "div",
             $attributes
-        ) . '</div>';
+       ) . '</div>';
 
-        $this->FieldList()->push( new LiteralField( 'locationEditor', $content ) );
+        $this->FieldList()->push(new LiteralField('locationEditor', $content));
 
 
 
@@ -101,7 +103,7 @@ var zoomFieldName = "'.$this->zoomField.'";
 	    </div>
 	    ';
 
-		$this->FieldList()->push( new LiteralField( 'mapSearch', $content2 ) );
+		$this->FieldList()->push(new LiteralField('mapSearch', $content2));
 
 		return parent::FieldHolder();
 	}
@@ -109,14 +111,14 @@ var zoomFieldName = "'.$this->zoomField.'";
 	/*
 	Perform place name search as a means of navigation when editing locations
 	*/
-	public function geocode( SS_HTTPRequest $r ) {
-		if ( $address = $r->requestVar( 'address' ) ) {
-			if ( $json = @file_get_contents(
+	public function geocode(SS_HTTPRequest $r) {
+		if ($address = $r->requestVar('address')) {
+			if ($json = @file_get_contents(
 				"http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=".
-				urlencode( $address ) ) ) {
-				$response = Convert::json2array( $json );
+				urlencode($address))) {
+				$response = Convert::json2array($json);
 				$location = $response['results'][0]->geometry->location;
-				return new SS_HTTPResponse( $location->lat.",".$location->lng );
+				return new SS_HTTPResponse($location->lat.",".$location->lng);
 			}
 		}
 	}

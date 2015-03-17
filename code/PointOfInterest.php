@@ -13,7 +13,7 @@ class PointOfInterest extends DataObject {
 
 	function getCMSFields() {
 	    $fields = parent::getCMSFields();
-	    $fields->addFieldToTab( 'Root.Main', new TextField('Name', 'Name of the item on the map'));
+	    $fields->addFieldToTab('Root.Main', new TextField('Name', 'Name of the item on the map'));
 	    return $fields;
 	}
 
