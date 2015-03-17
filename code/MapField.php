@@ -58,4 +58,3 @@ class MapField extends DatalessField {
 				) . '</div>';
 		}
 }
-?>

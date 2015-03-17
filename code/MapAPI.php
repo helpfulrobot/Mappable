@@ -613,8 +613,10 @@ var styles = [
 			}
 
 		}
-		if ( $extensionsImplementMappable || ($obj instanceof Mappable) ||
-			(Object::has_extension($obj->ClassName, 'MapExtension')) ) {
+		if ( $extensionsImplementMappable ||
+			($obj instanceof Mappable) ||
+			(Object::has_extension($obj->ClassName, 'MapExtension'))
+		) {
 			//if(($obj->getMappableLatitude() > 0) || ($obj->getMappableLongitude() > 0)) {
 			$cat = $obj->hasMethod( 'getMappableMapCategory' ) ? $obj->getMappableMapCategory() : "default";
 			$this->addMarkerByCoords(
@@ -622,8 +624,8 @@ var styles = [
 				$obj->getMappableLongitude(),
 				$obj->getMappableMapContent(),
 				$cat,
-				$obj->getMappableMapPin() );
-			}
+				$obj->getMappableMapPin()
+			);
 		}
 	}
 
