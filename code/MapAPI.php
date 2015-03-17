@@ -198,7 +198,7 @@ var styles = [
 	protected $allowFullScreen = null;
 
 
-	protected static $includeDownloadJavascript = false;
+	protected static $include_download_javascript = false;
 
 
 	/**
@@ -226,7 +226,7 @@ var styles = [
 	}
 
 	public function setIncludeDownloadJavascript($inclusion) {
-		self::$includeDownloadJavascript = $inclusion;
+		self::$include_download_javascript = $inclusion;
 	}
 
 
@@ -829,7 +829,7 @@ function jsonRemoveUnicodeSequences($struct) {
 				'GoogleMapID' => $this->googleMapId,
 				'Lang'=>$this->lang,
 				'UseClusterer'=>$this->useClusterer,
-				'DownloadJS' => !(self::$includeDownloadJavascript),
+				'DownloadJS' => !(self::$include_download_javascript),
 				'ClustererLibraryPath' => $this->clustererLibraryPath,
 				'Lines' => $linesJson,
 				'KmlFiles' => $kmlJson,
