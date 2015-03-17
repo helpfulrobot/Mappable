@@ -38,7 +38,7 @@ class ContactPage_Controller extends Page_Controller {
 
 The latter contains the actual map for each location, configured as above using extensions.yml
 
-```
+```php
 <?php
 class ContactPageAddress extends DataObject {
 	static $db = array(
@@ -64,7 +64,6 @@ class ContactPageAddress extends DataObject {
 		return $fields;
 	}
 }
-?>
 ```
 
 The template simply loops through the contact page addresses, rendering a map.
