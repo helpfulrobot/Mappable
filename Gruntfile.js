@@ -4,9 +4,9 @@ module.exports = function (grunt) {
         concat: {
             css: {
                 src: [
-                    'css/*'
+                    'css/mapField.css'
                 ],
-                dest: 'combined.css'
+                dest: 'css/mapField.min.css'
             },
             js: {
                 src: [
@@ -24,10 +24,10 @@ module.exports = function (grunt) {
         uglify: {
             js: {
 			    files : {
-			        'javascript/google/combined.js' : [
-			        'javascript/maputil.js',
-			        'javascript/FullScreen.js',
-			        'javascript/markerclusterer.js'
+			        'javascript/packaged/google/combined.min.js' : [
+			        'javascript/google/maputil.js',
+			        'javascript/google/FullScreen.js',
+			        'javascript/google/markerclusterer.js'
 			        ],
 
 			        'javascript/combined.js' : [
