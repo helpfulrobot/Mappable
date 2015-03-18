@@ -1,14 +1,6 @@
 module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        concat: {
-            js: {
-                src: [
-                    'javascript/google/*.js'
-                ],
-                dest: 'javascript/google/mappablegoogle.js'
-            }
-        },
         cssmin: {
             css: {
                 src: 'css/mapField.css',
@@ -32,9 +24,8 @@ module.exports = function (grunt) {
 			  },
         },
     });
-    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.registerTask('default', ['cssmin:css', 'concat:js', 'uglify:js']);
+    grunt.registerTask('default', ['cssmin:css', 'uglify:js']);
 };
