@@ -1,4 +1,4 @@
-<?php
+1<?php
 
 class MapExtension extends DataExtension implements Mappable {
 
@@ -38,13 +38,7 @@ class MapExtension extends DataExtension implements Mappable {
 		$fields->removeByName('MapPinEdited');
 
 		$fields->addFieldToTab("Root.Location",
-			new LatLongField(array(
-			new TextField('Lat', 'Latitude'),
-			new TextField('Lon', 'Longitude'),
-			new TextField('ZoomLevel', 'Zoom')
-		),
-			array('Address')
-		)
+			$this->getMapField()
 		);
 
 		$fields->addFieldToTab('Root.Location', $uf = new UploadField('MapPinIcon',
@@ -172,5 +166,31 @@ class MapExtension extends DataExtension implements Mappable {
 		$map->setClusterer(true);
 
 		return $map;
+	}
+
+
+	/**
+	 * Access the map editing field for the purpose of adding guide points
+	 * @return [LatLongField] instance of location editing field
+	 */
+	public function getMapField() {
+		if (!isset($this->mapField)) {
+			$this->mapField = new LatLongField(array(
+				new TextField('Lat', 'Latitude'),
+				new TextField('Lon', 'Longitude'),
+				new TextField('ZoomLevel', 'Zoom')
+				),
+				array('Address')
+			);
+		}
+		return $this->mapField;
+	}
+
+
+	/**
+	 * Template helper, used to decide whether or not to use compressed assets
+	 */
+	public function UseCompressedAssets() {
+		return Config::inst()->get('Mappable', 'use_compressed_assets');
 	}
 }

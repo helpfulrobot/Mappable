@@ -16,7 +16,9 @@ var mappableMapCtr = 0;
  * @param  {boolean} defaultHideMarker Whether or not to hide markers initially
  * @return {MapMarker}                 Google map pin object
  */
-function createMarker(map, lat, lng, html, category, icon, useClusterer, enableWindowZoom, defaultHideMarker) {
+function createMarker(map, lat, lng, html, category, icon, useClusterer, enableWindowZoom,
+	defaultHideMarker) {
+
 	mapId = map.getDiv().getAttribute('id');
 
 	var marker = new google.maps.Marker();
@@ -58,6 +60,7 @@ function getCurrentLat() {
 	return current_lat;
 }
 
+
 /**
  * Get the current longitude
  * @return {float} The current longitude
@@ -88,6 +91,7 @@ function addAllMarkers(map, markers, useClusterer, enableWindowZoom, defaultHide
 	return allmarkers;
 }
 
+
 /**
  * Add lines to a Google map
  * @param {googleMap} map   Google map instance
@@ -109,6 +113,7 @@ function addLines(map, lines) {
 	}
 }
 
+
 /**
  * Add one or more (max of 25) KML files to a Google map
  * @param {GoogleMap} map      A Google Map instance
@@ -126,8 +131,9 @@ function addKmlFiles(map, kmlFiles) {
 }
 
 
-function registerMap(googleMapID, centreCoordinates, zoom, minLat, minLng, maxLat, maxLng, mapType, markers, lines, kmlFiles,
-	jsonMapStyles, enableAutomaticCenterZoom, useClusterer, allowFullScreen) {
+function registerMap(googleMapID, centreCoordinates, zoom, minLat, minLng, maxLat, maxLng, mapType,
+	markers, lines, kmlFiles, jsonMapStyles, enableAutomaticCenterZoom, useClusterer,
+	allowFullScreen) {
 	var newMap = [];
 	newMap.googleMapID = googleMapID;
 	newMap.zoom = zoom;
@@ -205,7 +211,8 @@ function loadedGoogleMapsAPI() {
 			map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
 		}
 
-		var markers = addAllMarkers(map, map_info.markers, map_info.useClusterer, map_info.enableAutomaticCenterZoom, map_info.defaultHideMarker);
+		var markers = addAllMarkers(map, map_info.markers, map_info.useClusterer,
+			map_info.enableAutomaticCenterZoom, map_info.defaultHideMarker);
 
 		if (map_info.useClusterer) {
 			var mcOptions = {gridSize: 50, maxZoom: 17};
@@ -216,3 +223,5 @@ function loadedGoogleMapsAPI() {
 		addKmlFiles(map, map_info.kmlFiles);
 	}
 }
+
+alert('maputil');
