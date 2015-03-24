@@ -94,3 +94,13 @@ public function BicycleRideMap() {
 A page type, POIMapPage, is included in the Mappable module.  It is the same as 
 a page, with the addition of MapExtension and PointsOfInterestLayerException.  You
 will probably have to override the template, POIMapPage.ss in your theme.
+
+#IMPORT - Cache Expiry
+The default cache expiry time for SS_Cache is ten minutes.  FOr rendering lots of
+points of interest, it is better to increase this, as the data is likely to be
+relatively static.   In an _config.php file of your choosing add this to extend
+the cache time to a week (parameter is in seconds)
+
+```php
+SS_Cache::set_cache_lifetime('mappable', 60*60*168);
+```
