@@ -536,15 +536,7 @@ var styles = [
 	 */
 
 	public function addMarkerByCoords($lat, $lng, $html='', $category='', $icon='') {
-		// FIXME - this doesn't work when caching, perhaps move to database layer?
 
-		// Save the lat/lon to enable the automatic center/zoom
-		$this->maxLng = (float) max((float)$lng, $this->maxLng);
-		$this->minLng = (float) min((float)$lng, $this->minLng);
-		$this->maxLat = (float) max((float)$lat, $this->maxLat);
-		$this->minLat = (float) min((float)$lat, $this->minLat);
-		$this->centerLng = (float) ($this->minLng + $this->maxLng) / 2;
-		$this->centerLat = (float) ($this->minLat + $this->maxLat) / 2;
 		$iconURL = null;
 		if ($icon) {
 			$iconURL = $icon->getURL();
@@ -843,10 +835,6 @@ function jsonRemoveUnicodeSequences($struct) {
 				'Zoom' => $this->zoom,
 				'MaxZoom' => $this->maxZoom,
 				'GridSize' => $this->gridSize,
-				'MinLng' => $this->minLng,
-				'MinLat' => $this->minLat,
-				'MaxLng' => $this->maxLng,
-				'MaxLat' => $this->maxLat,
 				'MapType' => $this->mapType,
 				'GoogleMapID' => $this->googleMapId,
 				'Lang'=>$this->lang,
