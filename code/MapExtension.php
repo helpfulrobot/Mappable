@@ -123,6 +123,8 @@ class MapExtension extends DataExtension implements Mappable {
 	}
 
 
+
+
 	/*
 	Render a map at the provided lat,lon, zoom from the editing functions,
 	*/
@@ -140,25 +142,35 @@ class MapExtension extends DataExtension implements Mappable {
 			$map->setEnableAutomaticCenterZoom(true);
 		}
 
+
 		// add points of interest taking into account the default icon of the layer as an override
 		if (Object::has_extension($this->owner->ClassName, 'PointsOfInterestLayerExtension')) {
-			foreach($this->owner->PointsOfInterestLayers() as $layer) {
-				$layericon = $layer->DefaultIcon();
-				if ($layericon->ID === 0) {
-					$layericon = null;
-				}
-				foreach ($layer->PointsOfInterest() as $poi) {
-					if ($poi->MapPinEdited) {
-						if ($poi->MapPinIconID == 0) {
-							$poi->CachedMapPin = $layericon;
+			$markercache = SS_Cache::factory('mappable');
+
+			$ck = $this->getPoiMarkersCacheKey();
+			$map->MarkersCacheKey = $ck;
+
+			// If we have JSON already do not load the objects
+			if (!($jsonMarkers = $markercache->test($ck)))	{
+				foreach($this->owner->PointsOfInterestLayers() as $layer) {
+					$layericon = $layer->DefaultIcon();
+					if ($layericon->ID === 0) {
+						$layericon = null;
+					}
+					foreach ($layer->PointsOfInterest() as $poi) {
+						if ($poi->MapPinEdited) {
+							if ($poi->MapPinIconID == 0) {
+								$poi->CachedMapPin = $layericon;
+							}
+							$map->addMarkerAsObject($poi);
 						}
-						$map->addMarkerAsObject($poi);
 					}
 				}
 			}
-			$map->setClusterer(true);
-			$map->setEnableAutomaticCenterZoom(true);
 		}
+
+		$map->setClusterer(true);
+		$map->setEnableAutomaticCenterZoom(true);
 
 		$map->setZoom(10);
 		$map->setAdditionalCSSClasses('fullWidthMap');
@@ -192,5 +204,29 @@ class MapExtension extends DataExtension implements Mappable {
 	 */
 	public function UseCompressedAssets() {
 		return Config::inst()->get('Mappable', 'use_compressed_assets');
+	}
+
+
+	/**
+	 * Obtain a cache key for markers based on their last edited values
+	 * @return [String] Cache key that is unique if a marker is changed.
+	 */
+	private function getPoiMarkersCacheKey() {
+		$sql = <<<SQL
+SELECT MAX(poi.LastEdited) as POILastEdited,MAX(poil.LastEdited) as POILayerLastEdited
+FROM PointOfInterest poi
+INNER JOIN PointsOfInterestLayer_PointsOfInterest poilpoi
+ON poi.ID = poilpoi.PointOfInterestID
+INNER JOIN PointsOfInterestLayer poil
+ON poil.ID = poilpoi.PointsOfInterestLayerID
+;
+SQL;
+		$lasteditedvals = DB::query($sql)->first();
+		$key = 'poimarkers_'.$this->owner->ID.'_'.$this->owner->LastEdited.'_';
+		$key .= $lasteditedvals['POILastEdited'].'__'.$lasteditedvals['POILayerLastEdited'];
+		//$key = str_replace('-', '_', $key);
+		//$key = str_replace(':', '_', $key);
+		//$key = rand();
+		return hash('ripemd160',$key);
 	}
 }
