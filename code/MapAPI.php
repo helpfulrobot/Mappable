@@ -537,13 +537,6 @@ var styles = [
 
 	public function addMarkerByCoords($lat, $lng, $html='', $category='', $icon='') {
 
-		// Save the lat/lon to enable the automatic center/zoom
-		$this->maxLng = (float) max((float)$lng, $this->maxLng);
-		$this->minLng = (float) min((float)$lng, $this->minLng);
-		$this->maxLat = (float) max((float)$lat, $this->maxLat);
-		$this->minLat = (float) min((float)$lat, $this->minLat);
-		$this->centerLng = (float) ($this->minLng + $this->maxLng) / 2;
-		$this->centerLat = (float) ($this->minLat + $this->maxLat) / 2;
 		$iconURL = null;
 		if ($icon) {
 			$iconURL = $icon->getURL();
@@ -743,18 +736,39 @@ function jsonRemoveUnicodeSequences($struct) {
 		$linesJson = null;
 		$kmlJson = null;
 
-		// prior to PHP version 5.4, one needs to use regex
+		$markercache = SS_Cache::factory('mappable');
+
+		// Check to see if marker cache key has been set by the code rendering a map
+		// This is to avoid having to load markers unnecessarily
+		if (isset($this->MarkersCacheKey)) {
+			// Try to get the markers from a cache.  If not recalc and save
+			if (!($jsonMarkers = $markercache->load($this->MarkersCacheKey)))	{
+					// prior to PHP version 5.4, one needs to use regex
+				if (PHP_VERSION_ID < 50400) {
+					$jsonMarkers = stripslashes($this->jsonRemoveUnicodeSequences($this->markers));
+				} else {
+					$jsonMarkers = stripslashes(json_encode($this->markers,JSON_UNESCAPED_UNICODE));
+				}
+				$markercache->save($jsonMarkers);
+			}
+		}
+
+		/*
+		Don't cache the lines and kml for now but review this, it may become necessary
+		*/
 		if (PHP_VERSION_ID < 50400) {
-			$jsonMarkers = stripslashes($this->jsonRemoveUnicodeSequences($this->markers));
+			if ($jsonMarkers === null) {
+				$jsonMarkers = stripslashes($this->jsonRemoveUnicodeSequences($this->markers));
+			}
 			$linesJson = stripslashes($this->jsonRemoveUnicodeSequences($this->lines));
 			$kmlJson = stripslashes($this->jsonRemoveUnicodeSequences($this->kmlFiles));
 		} else {
-			$jsonMarkers = stripslashes(json_encode($this->markers,JSON_UNESCAPED_UNICODE));
+			if ($jsonMarkers == null) {
+				$jsonMarkers = stripslashes(json_encode($this->markers,JSON_UNESCAPED_UNICODE));
+			}
 			$linesJson = stripslashes(json_encode($this->lines,JSON_UNESCAPED_UNICODE));
 			$kmlJson = stripslashes(json_encode($this->kmlFiles,JSON_UNESCAPED_UNICODE));
 		}
-
-
 
 		 // Center of the GMap
 		$geocodeCentre = ($this->latLongCenter) ?
@@ -821,10 +835,6 @@ function jsonRemoveUnicodeSequences($struct) {
 				'Zoom' => $this->zoom,
 				'MaxZoom' => $this->maxZoom,
 				'GridSize' => $this->gridSize,
-				'MinLng' => $this->minLng,
-				'MinLat' => $this->minLat,
-				'MaxLng' => $this->maxLng,
-				'MaxLat' => $this->maxLat,
 				'MapType' => $this->mapType,
 				'GoogleMapID' => $this->googleMapId,
 				'Lang'=>$this->lang,
@@ -838,16 +848,41 @@ function jsonRemoveUnicodeSequences($struct) {
 			)
 		);
 
-		$this->content = $this->processTemplate('Map', $vars);
+		// HTML component of the map
+		$this->content = $this->processTemplateHTML('Map', $vars);
+
+		$javascript = $this->processTemplateJS('Map', $vars);
+
+		Requirements::customScript(<<<JS
+$javascript
+JS
+);
+
+		if (self::$include_download_javascript === false) {
+			Requirements::customScript(<<<JS
+google.maps.event.addDomListener(window, 'load', loadedGoogleMapsAPI);
+JS
+);
+
+		}
+
 	}
 
-
-	 function processTemplate($templateName, $templateVariables = null ) {
+	function processTemplateJS($templateName, $templateVariables = null) {
 		if (!$templateVariables) {
 			$templateVariables = new ArrayList();
 		}
 
-		$result = $templateVariables->renderWith($templateName.$this->mappingService);
+		$result = $templateVariables->renderWith($templateName.$this->mappingService.'JS');
+		return $result;
+	}
+
+	function processTemplateHTML($templateName, $templateVariables = null ) {
+		if (!$templateVariables) {
+			$templateVariables = new ArrayList();
+		}
+
+		$result = $templateVariables->renderWith($templateName.$this->mappingService.'HTML');
 		return $result;
 	}
 }
