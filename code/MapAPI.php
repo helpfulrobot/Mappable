@@ -136,13 +136,15 @@ var styles = [
 
 	/**
 	 * Type of the gmap, can be:
-	 *  'google.maps.MapTypeId.ROADMAP' (roadmap),
-	 *  'G_SATELLITE_MAP' (sattelite)
-	 *  'G_HYBRID_MAP' (hybrid)
-	 *  'G_PHYSICAL_MAP' (terrain)
+	 *  'road' (roadmap),
+	 *  'satellite' (sattelite/aerial photographs)
+	 *  'hybrid' (hybrid of road and satellite)
+	 *  'terrain' (terrain)
+	 *  The JavaScript for the mapping service will convert this into a suitable mapping type
 	 */
 
-	protected $mapType = 'google.maps.MapTypeId.ROADMAP';
+	protected $mapType = 'road';
+
 
 	/** Content of the HTML generated **/
 	protected $content = '';
@@ -407,16 +409,31 @@ var styles = [
 	}
 
 	/**
-	 * Set the type of the gmap
+	 * Set the type of the gmap.  Also takes into account legacy settings
 	 *
-	 * @param string  $mapType (can be 'google.maps.MapTypeId.ROADMAP',
-	 * 'G_SATELLITE_MAP', 'G_HYBRID_MAP', 'G_PHYSICAL_MAP')
+	 * @param string  $mapType  Can be one of road,satellite,hybrid or terrain. Defaults to road
 	 *
 	 * @return void
 	 */
 
 	public function setMapType($mapType) {
 		$this->mapType = $mapType;
+
+		// deal with legacy values for backwards compatbility
+		switch ($mapType) {
+			case 'google.maps.MapTypeId.SATELLITE':
+				$this->mapType = "satellite";
+				break;
+			case 'google.maps.MapTypeId.SATELLITE':
+				$this->mapType = "satellite";
+				break;
+			case 'google.maps.MapTypeId.SATELLITE':
+				$this->mapType = "satellite";
+				break;
+			default:
+				$this->MapType = "road";
+				break;
+		}
 	}
 
 	/*
@@ -702,26 +719,17 @@ var styles = [
 		);
 
 		array_push($this->lines, $line);
-
-
 	}
 
-	/**
-	 * Initialize the javascript code
-	 *
-	 * @return void
-	 */
 
-
-
-/*
-For php 5.3
-*/
-function jsonRemoveUnicodeSequences($struct) {
-	 return preg_replace("/\\\\u([a-f0-9]{4})/e",
-	 					"iconv('UCS-4LE','UTF-8',pack('V', hexdec('U$1')))",
-	 					json_encode($struct));
-}
+	/*
+	For php 5.3
+	*/
+	function jsonRemoveUnicodeSequences($struct) {
+		 return preg_replace("/\\\\u([a-f0-9]{4})/e",
+		 					"iconv('UCS-4LE','UTF-8',pack('V', hexdec('U$1')))",
+		 					json_encode($struct));
+	}
 
 
 	/**
@@ -858,15 +866,7 @@ $javascript
 JS
 );
 
-		if (self::$include_download_javascript === false) {
-			Requirements::customScript(<<<JS
-google.maps.event.addDomListener(window, 'load', loadedGoogleMapsAPI);
-JS
-);
-
 		}
-
-	}
 
 	function processTemplateJS($templateName, $templateVariables = null) {
 		if (!$templateVariables) {
