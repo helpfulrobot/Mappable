@@ -218,22 +218,28 @@ class MapExtension extends DataExtension implements Mappable {
 	 * Obtain a cache key for markers based on their last edited values
 	 * @return [String] Cache key that is unique if a marker is changed.
 	 */
-	private function getPoiMarkersCacheKey() {
-		$sql = <<<SQL
+	public function getPoiMarkersCacheKey() {
+		$key = 'poimarkers_'.$this->owner->ID.'_'.$this->owner->LastEdited.'_';
+
+		// take account points of interest if they exist
+		if ($this->owner->hasExtension('PointsOfInterestLayerExtension')) {
+			$sql = <<<SQL
 SELECT MAX(poi.LastEdited) as POILastEdited,MAX(poil.LastEdited) as POILayerLastEdited
 FROM PointOfInterest poi
 INNER JOIN PointsOfInterestLayer_PointsOfInterest poilpoi
 ON poi.ID = poilpoi.PointOfInterestID
 INNER JOIN PointsOfInterestLayer poil
 ON poil.ID = poilpoi.PointsOfInterestLayerID
+INNER JOIN {$this->owner->ClassName}_PointsOfInterestLayers cl
+ON cl.PointsOfInterestLayerID = poil.ID
+WHERE {$this->owner->ClassName}ID = {$this->owner->ID}
 ;
 SQL;
-		$lasteditedvals = DB::query($sql)->first();
-		$key = 'poimarkers_'.$this->owner->ID.'_'.$this->owner->LastEdited.'_';
-		$key .= $lasteditedvals['POILastEdited'].'__'.$lasteditedvals['POILayerLastEdited'];
-		//$key = str_replace('-', '_', $key);
-		//$key = str_replace(':', '_', $key);
-		//$key = rand();
-		return hash('ripemd160',$key);
+			$lasteditedvals = DB::query($sql)->first();
+			$key .= $lasteditedvals['POILastEdited'].'__'.$lasteditedvals['POILayerLastEdited'];
+		}
+
+		$result = hash('ripemd160',$key);
+		return $result;
 	}
 }
