@@ -155,7 +155,7 @@ class MapExtension extends DataExtension implements Mappable {
 			$markercache = SS_Cache::factory('mappable');
 
 			$ck = $this->getPoiMarkersCacheKey();
-			$map->MarkersCacheKey = $ck;
+			$map->appendToCacheKey($ck);
 
 			// If we have JSON already do not load the objects
 			if (!($jsonMarkers = $markercache->test($ck)))	{
