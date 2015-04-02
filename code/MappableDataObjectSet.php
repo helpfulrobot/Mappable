@@ -31,7 +31,6 @@ class MappableDataObjectSet extends Extension {
 
 
 	public function getMappableCacheKey() {
-		$key = 'mappabledataobjectset_'.$this->ID.'_'.$this->LastEdited;
-		$key .= $this->owner->max('LastEdited');
+		$key = 'mappabledataobjectset_'.$this->owner->ID.'_'.$this->owner->LastEdited;
 	}
 }
