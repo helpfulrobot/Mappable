@@ -75,6 +75,9 @@ class MapAPI extends ViewableData
 
 	protected $latLongCenter = null;
 
+	/** @var string If non blnak use this as a cache key for the markers JSON */
+	private $markersCacheKey = '';
+
 
 
 
@@ -242,6 +245,12 @@ var styles = [
 	public function setDelayLoadMapFunction($newDelay) {
 		$this->delayLoadMapFunction = $newDelay;
 	}
+
+
+	public function appendToCacheKey($cachekeypart) {
+		$this->markersCacheKey .= $cachekeypart;
+	}
+
 
 	/**
 	 * Set the useClusterer parameter (optimization to display a lot of marker)
@@ -726,20 +735,20 @@ var styles = [
 		$linesJson = null;
 		$kmlJson = null;
 
-		$markercache = SS_Cache::factory('mappable');
-
 		// Check to see if marker cache key has been set by the code rendering a map
 		// This is to avoid having to load markers unnecessarily
-		if (isset($this->MarkersCacheKey)) {
+		if (strlen($this->markersCacheKey) > 0) {
+			$markercache = SS_Cache::factory('mappable');
+
 			// Try to get the markers from a cache.  If not recalc and save
-			if (!($jsonMarkers = $markercache->load($this->MarkersCacheKey)))	{
+			if (!($jsonMarkers = $markercache->load($this->markersCacheKey)))	{
 					// prior to PHP version 5.4, one needs to use regex
 				if (PHP_VERSION_ID < 50400) {
 					$jsonMarkers = stripslashes($this->jsonRemoveUnicodeSequences($this->markers));
 				} else {
 					$jsonMarkers = stripslashes(json_encode($this->markers,JSON_UNESCAPED_UNICODE));
 				}
-				$markercache->save($jsonMarkers);
+				$markercache->save($jsonMarkers, $this->markersCacheKey);
 			}
 		}
 
