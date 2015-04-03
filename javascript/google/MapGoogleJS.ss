@@ -16,8 +16,11 @@ var options = {
 	kmlfiles: $KmlFiles,
 	mapstyles: $JsonMapStyles,
 	useclusterer: $UseClusterer,
-	enableautocentrezoom: $EnableAutomaticCenterZoom
+	enableautocentrezoom: $EnableAutomaticCenterZoom,
+	jsonurl: $JSONURL,
+	externaljson: $ExternalJSON
 }
+
 
 registerMap(options);
 

@@ -6,6 +6,7 @@ Mappable:
   allow_full_screen: true
   use_compressed_assets: false
   mapping_service: 'Google'
+  inline_json_threshold: 20
 
 MapExtension:
   map_info_window_suffix: 'MapInfoWindow'
