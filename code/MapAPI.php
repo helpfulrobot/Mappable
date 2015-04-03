@@ -735,20 +735,44 @@ var styles = [
 		$linesJson = null;
 		$kmlJson = null;
 
+
+		$markerThreshold = Config::inst()->get('Mappable', 'inline_json_threshold');
+		error_log("MARKER SIZE:".sizeof($this->markers));
+		$inlineMarkers = sizeof($this->markers) < $markerThreshold;
+
+		error_log("INLINE MARKERS:".$inlineMarkers);
+
 		// Check to see if marker cache key has been set by the code rendering a map
 		// This is to avoid having to load markers unnecessarily
 		if (strlen($this->markersCacheKey) > 0) {
 			$markercache = SS_Cache::factory('mappable');
 
+			error_log('Checking ck '.$this->markersCacheKey);
+
+
 			// Try to get the markers from a cache.  If not recalc and save
-			if (!($jsonMarkers = $markercache->load($this->markersCacheKey)))	{
+			if (!($markercache->test($this->markersCacheKey)))	{
 					// prior to PHP version 5.4, one needs to use regex
 				if (PHP_VERSION_ID < 50400) {
+					error_log("MARKERS Ta");
 					$jsonMarkers = stripslashes($this->jsonRemoveUnicodeSequences($this->markers));
 				} else {
+					error_log("MARKERS Tb");
 					$jsonMarkers = stripslashes(json_encode($this->markers,JSON_UNESCAPED_UNICODE));
 				}
+				error_log("Saved markers under ck ".$this->markersCacheKey);
 				$markercache->save($jsonMarkers, $this->markersCacheKey);
+
+			} else {
+				error_log("CK HIT");
+			}
+
+			if ($inlineMarkers) {
+					// load the markers using JSON instead
+					error_log("MARKERS T0");
+					$jsonMarkers = null;
+			} else {
+				$jsonMarkers = $markercache->load($this->markersCacheKey);
 			}
 		}
 
@@ -756,13 +780,15 @@ var styles = [
 		Don't cache the lines and kml for now but review this, it may become necessary
 		*/
 		if (PHP_VERSION_ID < 50400) {
-			if ($jsonMarkers === null) {
+			if (($jsonMarkers === null) && $inlineMarkers) {
+				error_log("MARKERS T1");
 				$jsonMarkers = stripslashes($this->jsonRemoveUnicodeSequences($this->markers));
 			}
 			$linesJson = stripslashes($this->jsonRemoveUnicodeSequences($this->lines));
 			$kmlJson = stripslashes($this->jsonRemoveUnicodeSequences($this->kmlFiles));
 		} else {
-			if ($jsonMarkers == null) {
+			if (($jsonMarkers == null) && $inlineMarkers) {
+				error_log("MARKERS T2");
 				$jsonMarkers = stripslashes(json_encode($this->markers,JSON_UNESCAPED_UNICODE));
 			}
 			$linesJson = stripslashes(json_encode($this->lines,JSON_UNESCAPED_UNICODE));
@@ -817,6 +843,14 @@ var styles = [
 			$this->allowFullScreen = 'false';
 		}
 
+		$jsonURL = null;
+		if (!$inlineMarkers) {
+			$jsonURL = $this->owner->Link().'/markerjson';
+		}
+
+
+		error_log("INLINE MARKERS:".$inlineMarkers);
+
 		$vars = new ArrayData(array(
 				'JsonMapStyles' => $this->jsonMapStyles,
 				'AdditionalCssClasses' => $this->additional_css_classes,
@@ -826,6 +860,8 @@ var styles = [
 				'InfoWindowZoom' => $this->infoWindowZoom,
 				'EnableWindowZoom' => $this->enableWindowZoom,
 				'MapMarkers' => $jsonMarkers,
+				'JSONURL' => $jsonURL,
+				'ExternalJSON' => !$inlineMarkers,
 				'DelayLoadMapFunction' => $this->delayLoadMapFunction,
 				'DefaultHideMarker' => $this->defaultHideMarker,
 				'LatLngCentre' => $this->LatLngCentreJSON,
