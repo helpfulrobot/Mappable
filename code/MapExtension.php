@@ -11,7 +11,9 @@ class MapExtension extends DataExtension implements Mappable {
 		'Lat' => 'Decimal(18,15)',
 		'Lon' => 'Decimal(18,15)',
 		'ZoomLevel' => 'Int',
-		'MapPinEdited' => 'Boolean'
+		'MapPinEdited' => 'Boolean',
+		/** for large numbers of markers it is better to load the markers from JSON */
+		'RenderInline' => 'Boolean'
 	);
 
 	static $has_one = array(
@@ -22,7 +24,8 @@ class MapExtension extends DataExtension implements Mappable {
 		'Lat' =>0,
 		'Lon' => 0,
 		'Zoom' => 4,
-		'MapPinEdited' => false
+		'MapPinEdited' => false,
+		'RenderInline' => true
 	);
 
 
